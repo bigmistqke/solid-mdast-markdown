@@ -1,11 +1,11 @@
 #!/usr/bin/env tsx
 
-import { render } from '@solidjs/testing-library'
 import { writeFileSync } from 'fs'
 import { dirname, join } from 'path'
+import { NoHydration, renderToString } from 'solid-js/web'
 import { fileURLToPath } from 'url'
-import { MDRenderer } from './src'
-import { testSpec, type TestCase } from './test/testSpec.ts'
+import { MDRenderer } from './dist/index.js'
+import { spec, type TestCase } from './test/spec.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -17,15 +17,17 @@ const updatedTestSpec: Record<string, TestCase> = {}
 let successCount = 0
 let errorCount = 0
 
-for (const [testName, testCase] of Object.entries(testSpec)) {
+for (const [testName, testCase] of Object.entries(spec)) {
   try {
-    const { asFragment } = render(() => MDRenderer({ content: testCase.markdown }))
+    const html = renderToString(() =>
+      NoHydration({ children: MDRenderer({ content: testCase.markdown }) }),
+    ).replaceAll('<!--!$-->', '')
 
     updatedTestSpec[testName] = {
       markdown: testCase.markdown,
-      html: asFragment(),
+      html: html,
     }
-    console.log(`✓ Generated HTML for: ${testName}`)
+    console.log(`✓ Generated HTML for: ${testName}: ${html.includes('<!--!$-->')}`)
     successCount++
   } catch (error) {
     console.error(`✗ Failed to generate HTML for ${testName}:`, (error as Error).message)
@@ -38,7 +40,7 @@ for (const [testName, testCase] of Object.entries(testSpec)) {
   }
 }
 
-// Generate the updated testSpec file
+// Generate the updated spec file
 const newTestSpecContent = `// Test specifications - Source of truth for all markdown tests
 // This file drives test generation and the test viewer
 
@@ -47,7 +49,7 @@ export interface TestCase {
   html: string
 }
 
-export const testSpec: Record<string, TestCase> = {
+export const spec: Record<string, TestCase> = {
 ${Object.entries(updatedTestSpec)
   .map(([testName, testCase]) => {
     const escapedMarkdown = testCase.markdown
@@ -66,11 +68,11 @@ ${Object.entries(updatedTestSpec)
 
 // Write the updated file
 
-const testSpecPath = join(__dirname, 'test', 'testSpec.ts')
-writeFileSync(testSpecPath, newTestSpecContent)
+const specPath = join(__dirname, 'test', 'spec.ts')
+writeFileSync(specPath, newTestSpecContent)
 
 console.log(`\n✅ Generated HTML for ${successCount} test cases`)
 if (errorCount > 0) {
   console.log(`❌ Failed to generate HTML for ${errorCount} test cases`)
 }
-console.log(`📄 Updated ${testSpecPath}`)
+console.log(`📄 Updated ${specPath}`)

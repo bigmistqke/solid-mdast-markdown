@@ -1,461 +1,96 @@
-// Auto-extracted test specifications
-// This structure mirrors the test cases and can be used to generate the test viewer
+// Test specifications - Source of truth for all markdown tests
+// This file drives test generation and the test viewer
 
 export interface TestCase {
-  name: string
-  content: string
-  snapshotKey: string
+  markdown: string
+  html: string
 }
 
-export interface TestCategory {
-  category: string
-  tests: TestCase[]
+export const testSpec: Record<string, TestCase> = {
+  'renders ATX heading 1': { markdown: '# Heading 1', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ATX heading 2': { markdown: '## Heading 2', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ATX heading 3': { markdown: '### Heading 3', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ATX heading 4': { markdown: '#### Heading 4', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ATX heading 5': { markdown: '##### Heading 5', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ATX heading 6': { markdown: '###### Heading 6', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders Setext heading 1': { markdown: 'Heading 1\n=========', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders Setext heading 2': { markdown: 'Heading 2\n---------', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders a simple paragraph': { markdown: 'This is a paragraph.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders multiple paragraphs': { markdown: 'First paragraph.\n\nSecond paragraph.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders italic text with asterisks': { markdown: '*italic*', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders italic text with underscores': { markdown: '_italic_', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bold text with double asterisks': { markdown: '**bold**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bold text with double underscores': { markdown: '__bold__', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders emphasis within paragraph': { markdown: 'This is *italic* and **bold** text.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders strikethrough text': { markdown: '~~strikethrough~~', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders strikethrough within paragraph': { markdown: 'This is ~~deleted~~ text.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bullet list with dashes': { markdown: '- Item 1\n- Item 2\n- Item 3', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bullet list with asterisks': { markdown: '* Item 1\n* Item 2\n* Item 3', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bullet list with plus signs': { markdown: '+ Item 1\n+ Item 2\n+ Item 3', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ordered list': { markdown: '1. First item\n2. Second item\n3. Third item', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders ordered list with different starting numbers': { markdown: '5. Fifth item\n6. Sixth item\n7. Seventh item', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders inline code': { markdown: '`code`', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders inline code within paragraph': { markdown: 'Use `console.log()` to debug.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders fenced code block': { markdown: '```\nconst x = 1;\nconsole.log(x);\n```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders fenced code block with language': { markdown: '```javascript\nconst x = 1;\nconsole.log(x);\n```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders indented code block': { markdown: '    const x = 1;\n    console.log(x);', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders inline link': { markdown: '[Example.com](https://example.com)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders autolink': { markdown: '<https://example.com>', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders image': { markdown: '![Alt text](image.jpg)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders blockquote': { markdown: '> This is a blockquote.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders multi-line blockquote': { markdown: '> First line\n> Second line', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders nested blockquotes': { markdown: '> This is a blockquote\n> \n> > This is a nested blockquote\n> > \n> > > And this is triple nested', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders blockquotes with emphasis and links': { markdown: '> This is a **bold** statement with [a link](https://example.com)\n> \n> And this is *italic* text in the same blockquote', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders blockquotes with lists': { markdown: '> This blockquote contains a list:\n> \n> 1. First item\n> 2. Second item\n> 3. Third item', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders horizontal rule with dashes': { markdown: '---', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders horizontal rule with asterisks': { markdown: '***', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders horizontal rule with underscores': { markdown: '___', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders simple table': { markdown: '| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders table with alignment': { markdown: '| Left | Center | Right |\n|:-----|:------:|------:|\n| L1   |   C1   |    R1 |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles backslash escapes': { markdown: '\\*not italic\\*', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles escaped characters': { markdown: '\\# Not a header', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles HTML entities': { markdown: '&amp; &lt; &gt;', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles special entities': { markdown: '&copy; &trade;', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles soft line breaks': { markdown: 'Line one\nLine two', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles hard line breaks': { markdown: 'Line one  \nLine two', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles complex nested markdown': { markdown: '# Header\n\nThis is a **bold** paragraph with *italic* text and `code`.\n\n- List item with [link](https://example.com)\n- Another item\n\n> Blockquote with **emphasis**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders deeply nested unordered lists': { markdown: '- Level 1\n  - Level 2\n    - Level 3\n      - Level 4', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders mixed nested lists (ordered and unordered)': { markdown: '1. First ordered item\n   - Nested unordered item\n   - Another nested item\n2. Second ordered item\n   1. Nested ordered item\n   2. Another nested ordered item', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders lists with multiple paragraphs in items': { markdown: '1. First item with multiple paragraphs.\n\n   This is the second paragraph of the first item.\n\n2. Second item with code:\n\n   ```javascript\n   console.log(\'Hello from list\');\n   ```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders bold within italic': { markdown: '*This is italic with **bold** inside*', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders italic within bold': { markdown: '**This is bold with *italic* inside**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders strikethrough with nested emphasis': { markdown: '~~This is deleted with **bold** and *italic* text~~', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders complex nested emphasis combinations': { markdown: '***This is bold and italic*** with ~~strikethrough **and bold**~~', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders links with emphasis': { markdown: '[**Bold link**](https://example.com) and [*italic link*](https://test.com)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders images within links': { markdown: '[![Alt text](image.jpg)](https://example.com)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders links in lists': { markdown: '- [Link 1](https://example.com)\n- Visit [Google](https://google.com) for search\n- Multiple [links](https://a.com) in [one](https://b.com) item', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders code within links': { markdown: '[Check out `console.log()`](https://developer.mozilla.org)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders inline code with emphasis markers that should not be processed': { markdown: '`const **bold** = \'not bold\';`', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders code blocks in lists': { markdown: '1. Install dependencies:\n   ```bash\n   npm install\n   ```\n\n2. Run the application:\n   ```javascript\n   npm start\n   ```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders code blocks in blockquotes': { markdown: '> Here\'s an example:\n> \n> ```javascript\n> function hello() {\n>   return "world";\n> }\n> ```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders standalone table correctly': { markdown: '| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders tables with emphasis and links': { markdown: '| Name | Description | Link |\n|------|-------------|------|\n| **Bold Name** | *Italic description* | [Visit](https://example.com) |\n| ~~Deprecated~~ | `code example` | [GitHub](https://github.com) |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders tables with images': { markdown: '| Icon | Name | Description |\n|------|------|-------------|\n| ![Icon](icon.png) | Project | Main project |\n| ![Logo](logo.svg) | Brand | Company brand |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders complex document with all features': { markdown: '# Main Title\n\nThis is a **complex document** with *various* elements.\n\n## Features\n\n1. **Lists** with nested items:\n   - Unordered nested list\n   - Another item with `inline code`\n\n2. **Code blocks** with different languages:\n   ```javascript\n   function example() {\n     return "Hello World";\n   }\n   ```\n\n3. **Tables** with complex content\n\n## Quotes and More\n\n> This is a blockquote with **emphasis** and a [link](https://test.com).\n> \n> > Nested quote with `code`\n\n---\n\n### Final Notes\n\nCheck out this image: ![Example](test.jpg)\n\nAnd this autolink: <https://automatic.link>', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders edge case with consecutive emphasis': { markdown: 'This has **bold** and **more bold** and *italic* and *more italic* text.', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders emphasis across line breaks': { markdown: 'This is **bold text that\ncontinues on the next line**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders mixed list types in complex document': { markdown: '## Mixed Lists\n\n1. Ordered item one\n   - Nested unordered\n   - Another nested\n     1. Deep nested ordered\n     2. Another deep ordered\n\n2. Ordered item two\n   > With a blockquote\n   > \n   > And **emphasis**\n\n3. Ordered item three with code:\n   ```python\n   print("Hello from Python")\n   ```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles unbalanced emphasis markers': { markdown: 'This has **unbalanced bold and *mixed emphasis**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles empty code blocks': { markdown: '```\n```', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles code blocks without closing': { markdown: '```javascript\nconst x = 1;', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles consecutive same emphasis types correctly': { markdown: '**This is** nested **bold**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles consecutive italic emphasis correctly': { markdown: '*This is* nested *italic*', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles triple asterisk emphasis correctly': { markdown: '***This is*** nested ***bold italic***', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles proper separated emphasis correctly': { markdown: '**this** is **bold**', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles links without URLs': { markdown: '[Link text]()', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles images without src': { markdown: '![Alt text]()', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles empty table cells': { markdown: '| Col1 | Col2 | Col3 |\n|------|------|------|\n| Data |      | More |\n|      | Data |      |', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders task lists with checkboxes': { markdown: '- [x] Completed task\n- [ ] Incomplete task\n- [x] Another completed task', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'renders nested task lists': { markdown: '- [x] Main task\n  - [x] Subtask 1\n  - [ ] Subtask 2\n    - [x] Sub-subtask', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'handles large documents efficiently': { markdown: '## Section 1\n\nThis is paragraph 1 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 2\n\nThis is paragraph 2 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 3\n\nThis is paragraph 3 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 4\n\nThis is paragraph 4 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 5\n\nThis is paragraph 5 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 6\n\nThis is paragraph 6 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 7\n\nThis is paragraph 7 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 8\n\nThis is paragraph 8 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 9\n\nThis is paragraph 9 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 10\n\nThis is paragraph 10 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 11\n\nThis is paragraph 11 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 12\n\nThis is paragraph 12 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 13\n\nThis is paragraph 13 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 14\n\nThis is paragraph 14 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 15\n\nThis is paragraph 15 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 16\n\nThis is paragraph 16 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 17\n\nThis is paragraph 17 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 18\n\nThis is paragraph 18 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 19\n\nThis is paragraph 19 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 20\n\nThis is paragraph 20 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 21\n\nThis is paragraph 21 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 22\n\nThis is paragraph 22 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 23\n\nThis is paragraph 23 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 24\n\nThis is paragraph 24 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 25\n\nThis is paragraph 25 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 26\n\nThis is paragraph 26 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 27\n\nThis is paragraph 27 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 28\n\nThis is paragraph 28 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 29\n\nThis is paragraph 29 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 30\n\nThis is paragraph 30 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 31\n\nThis is paragraph 31 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 32\n\nThis is paragraph 32 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 33\n\nThis is paragraph 33 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 34\n\nThis is paragraph 34 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 35\n\nThis is paragraph 35 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 36\n\nThis is paragraph 36 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 37\n\nThis is paragraph 37 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 38\n\nThis is paragraph 38 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 39\n\nThis is paragraph 39 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 40\n\nThis is paragraph 40 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 41\n\nThis is paragraph 41 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 42\n\nThis is paragraph 42 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 43\n\nThis is paragraph 43 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 44\n\nThis is paragraph 44 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 45\n\nThis is paragraph 45 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 46\n\nThis is paragraph 46 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 47\n\nThis is paragraph 47 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 48\n\nThis is paragraph 48 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 49\n\nThis is paragraph 49 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 50\n\nThis is paragraph 50 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 51\n\nThis is paragraph 51 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 52\n\nThis is paragraph 52 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 53\n\nThis is paragraph 53 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 54\n\nThis is paragraph 54 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 55\n\nThis is paragraph 55 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 56\n\nThis is paragraph 56 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 57\n\nThis is paragraph 57 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 58\n\nThis is paragraph 58 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 59\n\nThis is paragraph 59 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 60\n\nThis is paragraph 60 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 61\n\nThis is paragraph 61 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 62\n\nThis is paragraph 62 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 63\n\nThis is paragraph 63 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 64\n\nThis is paragraph 64 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 65\n\nThis is paragraph 65 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 66\n\nThis is paragraph 66 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 67\n\nThis is paragraph 67 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 68\n\nThis is paragraph 68 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 69\n\nThis is paragraph 69 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 70\n\nThis is paragraph 70 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 71\n\nThis is paragraph 71 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 72\n\nThis is paragraph 72 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 73\n\nThis is paragraph 73 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 74\n\nThis is paragraph 74 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 75\n\nThis is paragraph 75 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 76\n\nThis is paragraph 76 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 77\n\nThis is paragraph 77 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 78\n\nThis is paragraph 78 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 79\n\nThis is paragraph 79 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 80\n\nThis is paragraph 80 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 81\n\nThis is paragraph 81 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 82\n\nThis is paragraph 82 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 83\n\nThis is paragraph 83 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 84\n\nThis is paragraph 84 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 85\n\nThis is paragraph 85 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 86\n\nThis is paragraph 86 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 87\n\nThis is paragraph 87 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 88\n\nThis is paragraph 88 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 89\n\nThis is paragraph 89 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 90\n\nThis is paragraph 90 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 91\n\nThis is paragraph 91 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 92\n\nThis is paragraph 92 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 93\n\nThis is paragraph 93 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 94\n\nThis is paragraph 94 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 95\n\nThis is paragraph 95 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 96\n\nThis is paragraph 96 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 97\n\nThis is paragraph 97 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 98\n\nThis is paragraph 98 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 99\n\nThis is paragraph 99 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 100\n\nThis is paragraph 100 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'allows custom paragraph renderer': { markdown: 'Test paragraph', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'falls back to default renderer when custom not provided': { markdown: '# Header', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'allows custom emphasis renderer': { markdown: 'This is *custom italic* text', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'allows custom link renderer with additional attributes': { markdown: '[Original Link](https://example.com)', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' },
+  'allows chaining of custom renderers': { markdown: '**Bold** and *italic* text', html: 'Error: Cannot read properties of undefined (reading \'createElement\')' }
 }
-
-export const testSpec: TestCategory[] = [
-  {
-    "category": "MDRenderer > Basic markdown features > Headers",
-    "tests": [
-      {
-        "name": "renders ATX heading 1",
-        "content": "# Heading 1",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 1 1"
-      },
-      {
-        "name": "renders ATX heading 2",
-        "content": "## Heading 2",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 2 1"
-      },
-      {
-        "name": "renders ATX heading 3",
-        "content": "### Heading 3",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 3 1"
-      },
-      {
-        "name": "renders ATX heading 4",
-        "content": "#### Heading 4",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 4 1"
-      },
-      {
-        "name": "renders ATX heading 5",
-        "content": "##### Heading 5",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 5 1"
-      },
-      {
-        "name": "renders ATX heading 6",
-        "content": "###### Heading 6",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders ATX heading 6 1"
-      },
-      {
-        "name": "renders Setext heading 1",
-        "content": "Heading 1\n=========",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders Setext heading 1 1"
-      },
-      {
-        "name": "renders Setext heading 2",
-        "content": "Heading 2\n---------",
-        "snapshotKey": "MDRenderer > Basic markdown features > Headers > renders Setext heading 2 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Basic markdown features > Paragraphs",
-    "tests": [
-      {
-        "name": "renders a simple paragraph",
-        "content": "This is a paragraph.",
-        "snapshotKey": "MDRenderer > Basic markdown features > Paragraphs > renders a simple paragraph 1"
-      },
-      {
-        "name": "renders multiple paragraphs",
-        "content": "First paragraph.\n\nSecond paragraph.",
-        "snapshotKey": "MDRenderer > Basic markdown features > Paragraphs > renders multiple paragraphs 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Basic markdown features > Emphasis",
-    "tests": [
-      {
-        "name": "renders italic text with asterisks",
-        "content": "*italic*",
-        "snapshotKey": "MDRenderer > Basic markdown features > Emphasis > renders italic text with asterisks 1"
-      },
-      {
-        "name": "renders italic text with underscores",
-        "content": "_italic_",
-        "snapshotKey": "MDRenderer > Basic markdown features > Emphasis > renders italic text with underscores 1"
-      },
-      {
-        "name": "renders bold text with double asterisks",
-        "content": "**bold**",
-        "snapshotKey": "MDRenderer > Basic markdown features > Emphasis > renders bold text with double asterisks 1"
-      },
-      {
-        "name": "renders bold text with double underscores",
-        "content": "__bold__",
-        "snapshotKey": "MDRenderer > Basic markdown features > Emphasis > renders bold text with double underscores 1"
-      },
-      {
-        "name": "renders emphasis within paragraph",
-        "content": "This is *italic* and **bold** text.",
-        "snapshotKey": "MDRenderer > Basic markdown features > Emphasis > renders emphasis within paragraph 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Basic markdown features > Strikethrough",
-    "tests": [
-      {
-        "name": "renders strikethrough text",
-        "content": "~~strikethrough~~",
-        "snapshotKey": "MDRenderer > Basic markdown features > Strikethrough > renders strikethrough text 1"
-      },
-      {
-        "name": "renders strikethrough within paragraph",
-        "content": "This is ~~deleted~~ text.",
-        "snapshotKey": "MDRenderer > Basic markdown features > Strikethrough > renders strikethrough within paragraph 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Lists > Unordered lists",
-    "tests": [
-      {
-        "name": "renders bullet list with dashes",
-        "content": "- Item 1\n- Item 2\n- Item 3",
-        "snapshotKey": "MDRenderer > Lists > Unordered lists > renders bullet list with dashes 1"
-      },
-      {
-        "name": "renders bullet list with asterisks",
-        "content": "* Item 1\n* Item 2\n* Item 3",
-        "snapshotKey": "MDRenderer > Lists > Unordered lists > renders bullet list with asterisks 1"
-      },
-      {
-        "name": "renders bullet list with plus signs",
-        "content": "+ Item 1\n+ Item 2\n+ Item 3",
-        "snapshotKey": "MDRenderer > Lists > Unordered lists > renders bullet list with plus signs 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Lists > Ordered lists",
-    "tests": [
-      {
-        "name": "renders ordered list",
-        "content": "1. First item\n2. Second item\n3. Third item",
-        "snapshotKey": "MDRenderer > Lists > Ordered lists > renders ordered list 1"
-      },
-      {
-        "name": "renders ordered list with different starting numbers",
-        "content": "5. Fifth item\n6. Sixth item\n7. Seventh item",
-        "snapshotKey": "MDRenderer > Lists > Ordered lists > renders ordered list with different starting numbers 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Code blocks and inline code > Inline code",
-    "tests": [
-      {
-        "name": "renders inline code within paragraph",
-        "content": "Use ",
-        "snapshotKey": "MDRenderer > Code blocks and inline code > Inline code > renders inline code within paragraph 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Code blocks and inline code > Code blocks",
-    "tests": [
-      {
-        "name": "renders indented code block",
-        "content": "    const x = 1;\n    console.log(x);",
-        "snapshotKey": "MDRenderer > Code blocks and inline code > Code blocks > renders indented code block 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Links and images > Links",
-    "tests": [
-      {
-        "name": "renders inline link",
-        "content": "[Example.com](https://example.com)",
-        "snapshotKey": "MDRenderer > Links and images > Links > renders inline link 1"
-      },
-      {
-        "name": "renders autolink",
-        "content": "<https://example.com>",
-        "snapshotKey": "MDRenderer > Links and images > Links > renders autolink 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Links and images > Images",
-    "tests": [
-      {
-        "name": "renders image",
-        "content": "![Alt text](image.jpg)",
-        "snapshotKey": "MDRenderer > Links and images > Images > renders image 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Blockquotes and horizontal rules > Blockquotes",
-    "tests": [
-      {
-        "name": "renders blockquote",
-        "content": "> This is a blockquote.",
-        "snapshotKey": "MDRenderer > Blockquotes and horizontal rules > Blockquotes > renders blockquote 1"
-      },
-      {
-        "name": "renders multi-line blockquote",
-        "content": "> First line\n> Second line",
-        "snapshotKey": "MDRenderer > Blockquotes and horizontal rules > Blockquotes > renders multi-line blockquote 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Blockquotes and horizontal rules > Horizontal rules",
-    "tests": [
-      {
-        "name": "renders horizontal rule with dashes",
-        "content": "---",
-        "snapshotKey": "MDRenderer > Blockquotes and horizontal rules > Horizontal rules > renders horizontal rule with dashes 1"
-      },
-      {
-        "name": "renders horizontal rule with asterisks",
-        "content": "***",
-        "snapshotKey": "MDRenderer > Blockquotes and horizontal rules > Horizontal rules > renders horizontal rule with asterisks 1"
-      },
-      {
-        "name": "renders horizontal rule with underscores",
-        "content": "___",
-        "snapshotKey": "MDRenderer > Blockquotes and horizontal rules > Horizontal rules > renders horizontal rule with underscores 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Tables",
-    "tests": [
-      {
-        "name": "renders simple table",
-        "content": "| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |",
-        "snapshotKey": "MDRenderer > Tables > renders simple table 1"
-      },
-      {
-        "name": "renders table with alignment",
-        "content": "| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |",
-        "snapshotKey": "MDRenderer > Tables > renders table with alignment 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Special syntax > Escapes",
-    "tests": [
-      {
-        "name": "handles backslash escapes",
-        "content": "\\\\*not italic\\\\*",
-        "snapshotKey": "MDRenderer > Special syntax > Escapes > handles backslash escapes 1"
-      },
-      {
-        "name": "handles escaped characters",
-        "content": "\\\\# Not a header",
-        "snapshotKey": "MDRenderer > Special syntax > Escapes > handles escaped characters 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Special syntax > HTML entities",
-    "tests": [
-      {
-        "name": "handles HTML entities",
-        "content": "&amp; &lt; &gt;",
-        "snapshotKey": "MDRenderer > Special syntax > HTML entities > handles HTML entities 1"
-      },
-      {
-        "name": "handles special entities",
-        "content": "&copy; &trade;",
-        "snapshotKey": "MDRenderer > Special syntax > HTML entities > handles special entities 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Special syntax > Line breaks",
-    "tests": [
-      {
-        "name": "handles soft line breaks",
-        "content": "Line one\nLine two",
-        "snapshotKey": "MDRenderer > Special syntax > Line breaks > handles soft line breaks 1"
-      },
-      {
-        "name": "handles hard line breaks",
-        "content": "Line one  \nLine two",
-        "snapshotKey": "MDRenderer > Special syntax > Line breaks > handles hard line breaks 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Nested emphasis",
-    "tests": [
-      {
-        "name": "renders bold within italic",
-        "content": "*This is italic with **bold** inside*",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Nested emphasis > renders bold within italic 1"
-      },
-      {
-        "name": "renders italic within bold",
-        "content": "**This is bold with *italic* inside**",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Nested emphasis > renders italic within bold 1"
-      },
-      {
-        "name": "renders strikethrough with nested emphasis",
-        "content": "~~This is deleted with **bold** and *italic* text~~",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Nested emphasis > renders strikethrough with nested emphasis 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Links and images in various contexts",
-    "tests": [
-      {
-        "name": "renders images within links",
-        "content": "[![Alt text](image.jpg)](https://example.com)",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Links and images in various contexts > renders images within links 1"
-      },
-      {
-        "name": "renders code within links",
-        "content": "[Check out ",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Links and images in various contexts > renders code within links 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Code in various contexts",
-    "tests": [
-      {
-        "name": "renders code blocks in blockquotes",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Code in various contexts > renders code blocks in blockquotes 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Blockquotes",
-    "tests": [
-      {
-        "name": "renders nested blockquotes",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Blockquotes > renders nested blockquotes 1"
-      },
-      {
-        "name": "renders blockquotes with emphasis and links",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Blockquotes > renders blockquotes with emphasis and links 1"
-      },
-      {
-        "name": "renders blockquotes with lists",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Blockquotes > renders blockquotes with lists 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Tables with complex content",
-    "tests": [
-      {
-        "name": "renders standalone table correctly",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Tables with complex content > renders standalone table correctly 1"
-      },
-      {
-        "name": "renders tables with emphasis and links",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Tables with complex content > renders tables with emphasis and links 1"
-      },
-      {
-        "name": "renders tables with images",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Tables with complex content > renders tables with images 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Mixed content scenarios",
-    "tests": [
-      {
-        "name": "renders complex document with all features",
-        "content": "> Here",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Mixed content scenarios > renders complex document with all features 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content",
-    "tests": [
-      {
-        "name": "handles unbalanced emphasis markers",
-        "content": "This has **unbalanced bold and *mixed emphasis**",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles unbalanced emphasis markers 1"
-      },
-      {
-        "name": "handles consecutive same emphasis types correctly",
-        "content": "**This is** nested **bold**",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles consecutive same emphasis types correctly 1"
-      },
-      {
-        "name": "handles consecutive italic emphasis correctly",
-        "content": "*This is* nested *italic*",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles consecutive italic emphasis correctly 1"
-      },
-      {
-        "name": "handles triple asterisk emphasis correctly",
-        "content": "***This is*** nested ***bold italic***",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles triple asterisk emphasis correctly 1"
-      },
-      {
-        "name": "handles proper separated emphasis correctly",
-        "content": "**this** is **bold**",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles proper separated emphasis correctly 1"
-      },
-      {
-        "name": "handles links without URLs",
-        "content": "[Link text]()",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles links without URLs 1"
-      },
-      {
-        "name": "handles images without src",
-        "content": "![Alt text]()",
-        "snapshotKey": "MDRenderer > Nested and complex scenarios > Edge cases and malformed content > handles images without src 1"
-      }
-    ]
-  },
-  {
-    "category": "MDRenderer > Custom renderers",
-    "tests": [
-      {
-        "name": "allows custom paragraph renderer",
-        "content": "Test paragraph",
-        "snapshotKey": "MDRenderer > Custom renderers > allows custom paragraph renderer 1"
-      },
-      {
-        "name": "falls back to default renderer when custom not provided",
-        "content": "# Header",
-        "snapshotKey": "MDRenderer > Custom renderers > falls back to default renderer when custom not provided 1"
-      },
-      {
-        "name": "allows custom emphasis renderer",
-        "content": "This is *custom italic* text",
-        "snapshotKey": "MDRenderer > Custom renderers > allows custom emphasis renderer 1"
-      },
-      {
-        "name": "allows custom link renderer with additional attributes",
-        "content": "[Original Link](https://example.com)",
-        "snapshotKey": "MDRenderer > Custom renderers > allows custom link renderer with additional attributes 1"
-      },
-      {
-        "name": "allows chaining of custom renderers",
-        "content": "**Bold** and *italic* text",
-        "snapshotKey": "MDRenderer > Custom renderers > allows chaining of custom renderers 1"
-      }
-    ]
-  }
-]

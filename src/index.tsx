@@ -171,7 +171,7 @@ function extractImageAlt(node: MDNode): string {
   // We need to extract it manually from the content
   const content = node.content
   const match = content.match(/^!\[(.*?)\]/)
-  return match ? match[1] : ''
+  return match?.[1] || ''
 }
 
 /**********************************************************************************/

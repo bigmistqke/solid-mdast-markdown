@@ -1,40 +1,11 @@
-import { Component, createSignal, For, Show, createMemo, createResource } from 'solid-js'
+import { Component, createSignal, For, Show, createMemo } from 'solid-js'
 import { render } from 'solid-js/web'
 import { MDRenderer } from '../src'
-import { testSpec, type TestCase, type TestCategory } from '../test/testSpec'
-
-// Load snapshot data using import.meta.glob with eager loading
-const snapshotModules = import.meta.glob('../test/__snapshots__/*.snap', { as: 'raw', eager: true })
-
-// Parse snapshot data immediately
-const snapshotData = (() => {
-  const snapshots: Record<string, string> = {}
-  
-  for (const [path, content] of Object.entries(snapshotModules)) {
-    try {
-      // Parse the snapshot file content
-      // Format: exports[`test name 1`] = `"expected output"`;
-      const lines = content.split('\n')
-      
-      for (const line of lines) {
-        const match = line.match(/^exports\[`([^`]+)`\] = `(.+)`;?$/)
-        if (match) {
-          const [, testKey, expectedOutput] = match
-          // Remove the surrounding quotes from the expected output
-          snapshots[testKey] = expectedOutput.replace(/^"(.*)"$/, '$1')
-        }
-      }
-    } catch (error) {
-      console.error(`Failed to load snapshot from ${path}:`, error)
-    }
-  }
-  
-  return snapshots
-})()
+import { testSpec } from '../test/testSpec'
 
 interface TestResult {
-  case: TestCase
-  category: string
+  title: string
+  markdown: string
   actualOutput: string
   expectedOutput: string
   matches: boolean
@@ -48,49 +19,47 @@ export const AutoTestViewer: Component = () => {
   const testResults = createMemo<TestResult[]>(() => {
     const results: TestResult[] = []
     
-    testSpec.forEach(category => {
-      category.tests.forEach(testCase => {
+    Object.entries(testSpec).forEach(([title, testCase]) => {
+      try {
+        // Get actual output by rendering the component
+        const tempDiv = document.createElement('div')
+        document.body.appendChild(tempDiv)
+        
+        let actualOutput: string
         try {
-          // Get actual output by rendering the component
-          const tempDiv = document.createElement('div')
-          document.body.appendChild(tempDiv)
-          
-          let actualOutput: string
-          try {
-            // Render the component the same way as in the tests
-            render(() => MDRenderer({ content: testCase.content }), tempDiv)
-            actualOutput = tempDiv.innerHTML
-          } catch (e) {
-            actualOutput = `Render Error: ${e}`
-          } finally {
-            if (document.body.contains(tempDiv)) {
-              document.body.removeChild(tempDiv)
-            }
+          // Render the component the same way as in the tests
+          render(() => MDRenderer({ content: testCase.markdown }), tempDiv)
+          actualOutput = tempDiv.innerHTML
+        } catch (e) {
+          actualOutput = `Render Error: ${e}`
+        } finally {
+          if (document.body.contains(tempDiv)) {
+            document.body.removeChild(tempDiv)
           }
-          
-          // Get expected output from snapshot
-          const expectedOutput = snapshotData[testCase.snapshotKey] || 'No snapshot found'
-          
-          // Compare actual vs expected
-          const matches = actualOutput === expectedOutput
-          
-          results.push({
-            case: testCase,
-            category: category.category,
-            actualOutput,
-            expectedOutput,
-            matches
-          })
-        } catch (error) {
-          results.push({
-            case: testCase,
-            category: category.category,
-            actualOutput: `Error: ${error}`,
-            expectedOutput: snapshotData[testCase.snapshotKey] || 'No snapshot found',
-            matches: false
-          })
         }
-      })
+        
+        // Get expected output from testSpec
+        const expectedOutput = testCase.html
+        
+        // Compare actual vs expected
+        const matches = actualOutput === expectedOutput
+        
+        results.push({
+          title,
+          markdown: testCase.markdown,
+          actualOutput,
+          expectedOutput,
+          matches
+        })
+      } catch (error) {
+        results.push({
+          title,
+          markdown: testCase.markdown,
+          actualOutput: `Error: ${error}`,
+          expectedOutput: testCase.html,
+          matches: false
+        })
+      }
     })
     
     return results
@@ -100,7 +69,7 @@ export const AutoTestViewer: Component = () => {
     let results = testResults()
     
     if (selectedCategory()) {
-      results = results.filter(r => r.category === selectedCategory())
+      results = results.filter(r => r.title.toLowerCase().includes(selectedCategory()!.toLowerCase()))
     }
     
     if (showOnlyFailures()) {
@@ -111,7 +80,20 @@ export const AutoTestViewer: Component = () => {
   })
 
   const categories = createMemo(() => {
-    const cats = new Set(testResults().map(r => r.category))
+    const cats = new Set<string>()
+    testResults().forEach(r => {
+      // Extract category keywords from titles
+      if (r.title.includes('heading') || r.title.includes('header')) cats.add('Headers')
+      else if (r.title.includes('paragraph')) cats.add('Paragraphs')
+      else if (r.title.includes('italic') || r.title.includes('bold') || r.title.includes('emphasis')) cats.add('Emphasis')
+      else if (r.title.includes('strikethrough')) cats.add('Strikethrough')
+      else if (r.title.includes('list')) cats.add('Lists')
+      else if (r.title.includes('code')) cats.add('Code')
+      else if (r.title.includes('link') || r.title.includes('image')) cats.add('Links/Images')
+      else if (r.title.includes('blockquote')) cats.add('Blockquotes')
+      else if (r.title.includes('table')) cats.add('Tables')
+      else cats.add('Other')
+    })
     return Array.from(cats)
   })
 
@@ -257,7 +239,7 @@ export const AutoTestViewer: Component = () => {
                     'max-height': '160px',
                     overflow: 'auto'
                   }}>
-                    {result.case.content}
+                    {result.markdown}
                   </pre>
                 </div>
                 
@@ -306,7 +288,7 @@ export const AutoTestViewer: Component = () => {
                       'max-height': '80px',
                       overflow: 'auto'
                     }}>
-                      <MDRenderer content={result.case.content} />
+                      <MDRenderer content={result.markdown} />
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,13 @@
       "Bash(pnpm test:*)",
       "Bash(npm test:*)",
       "Bash(node:*)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(npx vitest run:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm generate:html:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

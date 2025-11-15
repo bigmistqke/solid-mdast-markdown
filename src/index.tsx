@@ -8,6 +8,7 @@ const debug = createDebug('MDRenderer', false)
 // Use parser with table and strikethrough support
 const parser = markdownParser.configure([Table, Strikethrough])
 const MDRendererContext = createContext<MDRendererProps>()
+const ContainerContext = createContext<string>()
 
 interface MDRendererProps {
   content: string
@@ -183,20 +184,46 @@ const NOOP = () => ''
 
 export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>> = {
   // Root document container
-  Document: props => (
-    <Show when={props.node.children.length > 0} fallback={<span>{props.node.content}</span>}>
-      <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
-    </Show>
-  ),
+  Document: props => {
+    debug('Document node:', {
+      content: props.node.content,
+      children: props.node.children.length,
+      childTypes: props.node.children.map(c => c.type),
+    })
+    return (
+      <Show when={props.node.children.length > 0} fallback={<span>{props.node.content}</span>}>
+        <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+      </Show>
+    )
+  },
 
   // Regular paragraph text
-  Paragraph: props => (
-    <Show when={props.node.children.length > 0} fallback={<span>{props.node.content}</span>}>
-      <span>
-        <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
-      </span>
-    </Show>
-  ),
+  Paragraph: props => {
+    const container = useContext(ContainerContext)
+
+    // Use span for paragraphs inside list items, blockquotes, or table cells
+    const useSpan =
+      container === 'ListItem' || container === 'Blockquote' || container === 'TableCell'
+
+    return (
+      <Show
+        when={useSpan}
+        fallback={
+          <Show when={props.node.children.length > 0} fallback={<p>{props.node.content}</p>}>
+            <p>
+              <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+            </p>
+          </Show>
+        }
+      >
+        <Show when={props.node.children.length > 0} fallback={<span>{props.node.content}</span>}>
+          <span>
+            <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+          </span>
+        </Show>
+      </Show>
+    )
+  },
 
   // # Heading 1
   ATXHeading1: props => <h1>{props.node.content.replace(/^#\s+/, '')}</h1>,
@@ -247,7 +274,16 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
   ),
 
   // Plain text content
-  Text: props => props.node.content,
+  Text: props => {
+    const container = useContext(ContainerContext)
+    
+    // Filter out whitespace-only text nodes in blockquotes to prevent unwanted spacing
+    return (
+      <Show when={!(container === 'Blockquote' && /^\s*$/.test(props.node.content))} fallback="">
+        {props.node.content}
+      </Show>
+    )
+  },
 
   // *italic* or _italic_
   Emphasis: props => (
@@ -300,7 +336,9 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
   // List item content
   ListItem: props => (
     <li>
-      <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+      <ContainerContext.Provider value="ListItem">
+        <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+      </ContainerContext.Provider>
     </li>
   ),
 
@@ -313,7 +351,9 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
         margin: '8px 0',
       }}
     >
-      <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+      <ContainerContext.Provider value="Blockquote">
+        <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
+      </ContainerContext.Provider>
     </blockquote>
   ),
 
@@ -401,9 +441,11 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
 
   // Table cell content
   TableCell: props => (
-    <Show when={props.node.children.length > 0} fallback={props.node.content}>
-      <For each={props.node.children}>{node => <DefaultNode node={node} />}</For>
-    </Show>
+    <ContainerContext.Provider value="TableCell">
+      <Show when={props.node.children.length > 0} fallback={props.node.content}>
+        <For each={props.node.children}>{node => <DefaultNode node={node} />}</For>
+      </Show>
+    </ContainerContext.Provider>
   ),
 
   // ~~strikethrough~~

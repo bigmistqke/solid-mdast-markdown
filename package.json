@@ -19,7 +19,7 @@
   "private": false,
   "sideEffects": false,
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "browser": {},
@@ -27,10 +27,6 @@
     "import": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "require": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.cjs"
     }
   },
   "typesVersions": {},
@@ -40,9 +36,7 @@
     "test": "concurrently pnpm:test:*",
     "test:client": "vitest",
     "test:ssr": "pnpm run test:client --mode ssr",
-    "generate:html": "node generate-html.ts",
-    "generate:tests": "node generate-tests.ts",
-    "generate:all": "pnpm generate:html && pnpm generate:tests",
+    "test:update": "pnpm build && node scripts/generate-html.ts && node scripts/generate-tests.ts",
     "prepublishOnly": "pnpm build",
     "format": "prettier --ignore-path .gitignore -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" \"dev/**/*.{js,ts,json,css,tsx,jsx}\"",
     "lint": "concurrently pnpm:lint:*",
@@ -69,8 +63,10 @@
     "solid-js": "^1.8.17",
     "tsup": "^8.0.2",
     "tsup-preset-solid": "^2.2.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
+    "vite-plugin-dts": "^4.5.4",
     "vite-plugin-solid": "^2.10.2",
     "vitest": "^3.0.0"
   },

@@ -310,11 +310,13 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
   ),
 
   // [link text](url) or [link text](url "title")
-  Link: props => (
-    <a href={extractLinkUrl(props.node)} target="_blank" rel="noopener noreferrer">
-      <For each={props.node.children}>{child => <DefaultNode node={child} />}</For>
-    </a>
-  ),
+  Link: props => {
+    return (
+      <a href={extractLinkUrl(props.node)} target="_blank" rel="noopener noreferrer">
+        <DefaultNode node={props.node.children[0]!} />
+      </a>
+    )
+  },
 
   // ![alt text](image.jpg) or ![alt text](image.jpg "title")
   Image: props => <img src={extractLinkUrl(props.node)} alt={extractImageAlt(props.node)} />,
@@ -496,9 +498,8 @@ export const DefaultNodeRenderers: Record<string, Component<MDNodeRendererProps>
   ProcessingInstruction: NOOP,
   // <https://example.com> or https://example.com (auto-detected links)
   Autolink: props => {
-    debug('Autolink node:', props.node)
     const url = props.node.content.replace(/^<|>$/g, '')
-    debug('Autolink extracted URL:', url)
+
     return (
       <a href={url} target="_blank" rel="noopener noreferrer">
         {url}

@@ -4,8 +4,9 @@ import { writeFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { NoHydration, renderToString } from 'solid-js/web'
 import { fileURLToPath } from 'url'
-import { MDRenderer } from './dist/index.js'
-import { spec, type TestCase } from './test/spec.ts'
+import { MDRenderer } from '../dist/index.js'
+import spec from '../test/spec.ts'
+import type { TestCase } from '../test/types.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -27,11 +28,11 @@ for (const [testName, testCase] of Object.entries(spec)) {
       markdown: testCase.markdown,
       html: html,
     }
-    console.log(`✓ Generated HTML for: ${testName}: ${html.includes('<!--!$-->')}`)
+
     successCount++
   } catch (error) {
-    console.error(`✗ Failed to generate HTML for ${testName}:`, (error as Error).message)
-
+    // @ts-expect-error
+    console.error('Error while generating html', error.message)
     updatedTestSpec[testName] = {
       markdown: testCase.markdown,
       html: `Error: ${(error as Error).message}`,
@@ -41,15 +42,14 @@ for (const [testName, testCase] of Object.entries(spec)) {
 }
 
 // Generate the updated spec file
-const newTestSpecContent = `// Test specifications - Source of truth for all markdown tests
-// This file drives test generation and the test viewer
+const newTestSpecContent = `/**
+ * Test specifications - Source of truth for all markdown tests
+ * This file drives test generation and the test viewer 
+ */
 
-export interface TestCase {
-  markdown: string
-  html: string
-}
+import type { Spec } from "./types.ts"
 
-export const spec: Record<string, TestCase> = {
+export default {
 ${Object.entries(updatedTestSpec)
   .map(([testName, testCase]) => {
     const escapedMarkdown = testCase.markdown
@@ -63,12 +63,12 @@ ${Object.entries(updatedTestSpec)
     return `  '${testName}': { markdown: '${escapedMarkdown}', html: '${escapedHtml}' }`
   })
   .join(',\n')}
-}
+} satisfies Spec
 `
 
 // Write the updated file
 
-const specPath = join(__dirname, 'test', 'spec.ts')
+const specPath = join(__dirname, '..', 'test', 'spec.ts')
 writeFileSync(specPath, newTestSpecContent)
 
 console.log(`\n✅ Generated HTML for ${successCount} test cases`)

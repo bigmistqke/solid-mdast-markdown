@@ -1,8 +1,9 @@
 import type { Component } from 'solid-js'
 import { MDRenderer } from '../src'
+import { TestViewer } from './TestViewer'
 
 const App: Component = () => {
-  // return <AutoTestViewer />
+  return <TestViewer />
   return <MDRenderer content="# hallo world" />
 }
 

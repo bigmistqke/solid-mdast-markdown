@@ -25,7 +25,7 @@ setup()
 
 describe('MDRenderer', () => {`,
     ...Object.entries(spec).map(
-      ([title, { markdown, html }]) => `      it('${title}', () => {
+      ([title, { input: markdown, snapshot: html }]) => `      it('${title}', () => {
         const { asFragment } = render(() => <MDRenderer content={${JSON.stringify(markdown)} } />)
         expect(asFragment()).toRenderEqual(${JSON.stringify(html)})
       })`,

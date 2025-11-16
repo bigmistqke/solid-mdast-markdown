@@ -1,6 +1,7 @@
 export interface TestCase {
-  markdown: string
-  html: string
+  input: string
+  snapshot: string
+  manual?: true
 }
 
 export type Spec = Record<string, TestCase>

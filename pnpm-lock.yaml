@@ -24,9 +24,12 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
     devDependencies:
+      '@solidjs/router':
+        specifier: ^0.15.4
+        version: 0.15.4(solid-js@1.8.17)
       '@solidjs/testing-library':
         specifier: ^0.8.10
-        version: 0.8.10(solid-js@1.8.17)
+        version: 0.8.10(@solidjs/router@0.15.4(solid-js@1.8.17))(solid-js@1.8.17)
       '@types/node':
         specifier: ^20.12.12
         version: 20.12.12
@@ -1056,6 +1059,11 @@ packages:
 
   '@rushstack/ts-command-line@5.1.3':
     resolution: {integrity: sha512-Kdv0k/BnnxIYFlMVC1IxrIS0oGQd4T4b7vKfx52Y2+wk2WZSDFIvedr7JrhenzSlm3ou5KwtoTGTGd5nbODRug==}
+
+  '@solidjs/router@0.15.4':
+    resolution: {integrity: sha512-WOpgg9a9T638cR+5FGbFi/IV4l2FpmBs1GpIMSPa0Ce9vyJN7Wts+X2PqMf9IYn0zUj2MlSJtm1gp7/HI/n5TQ==}
+    peerDependencies:
+      solid-js: ^1.8.6
 
   '@solidjs/testing-library@0.8.10':
     resolution: {integrity: sha512-qdeuIerwyq7oQTIrrKvV0aL9aFeuwTd86VYD3afdq5HYEwoox1OBTJy4y8A3TFZr8oAR0nujYgCzY/8wgHGfeQ==}
@@ -3471,10 +3479,16 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@solidjs/testing-library@0.8.10(solid-js@1.8.17)':
+  '@solidjs/router@0.15.4(solid-js@1.8.17)':
+    dependencies:
+      solid-js: 1.8.17
+
+  '@solidjs/testing-library@0.8.10(@solidjs/router@0.15.4(solid-js@1.8.17))(solid-js@1.8.17)':
     dependencies:
       '@testing-library/dom': 10.4.1
       solid-js: 1.8.17
+    optionalDependencies:
+      '@solidjs/router': 0.15.4(solid-js@1.8.17)
 
   '@testing-library/dom@10.4.1':
     dependencies:

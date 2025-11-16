@@ -1,10 +1,13 @@
-import type { Component } from 'solid-js'
-import { MDRenderer } from '../src'
+import { Route, Router } from '@solidjs/router'
+import { type Component } from 'solid-js'
 import { TestViewer } from './TestViewer'
 
 const App: Component = () => {
-  return <TestViewer />
-  return <MDRenderer content="# hallo world" />
+  return (
+    <Router>
+      <Route path="/" component={TestViewer} />
+    </Router>
+  )
 }
 
 export default App

@@ -12,8 +12,8 @@ export function createDebug(subject: string, enabled: boolean) {
   }
 }
 
-// Helper function to normalize style attribute strings
-function normalizeStyleAttribute(node: HTMLElement): string {
+// Helper function to get computed style
+function getComputedStyle(node: HTMLElement): string {
   const properties = []
 
   for (let i = 0; i < node.style.length; i++) {
@@ -27,7 +27,7 @@ function normalizeStyleAttribute(node: HTMLElement): string {
 }
 
 // Compare nodes recursively, returning a detailed error message or true.
-export function compareElements(received: HTMLElement, expected: HTMLElement, path: string = '') {
+export function compareNodes(received: Node, expected: Node, path: string = '') {
   // Check node types and names.
   if (received.nodeType !== expected.nodeType) {
     throw new Error(
@@ -41,48 +41,55 @@ export function compareElements(received: HTMLElement, expected: HTMLElement, pa
     )
   }
 
-  // return Array.from(node.attributes).sort((a, b) => a.name.localeCompare(b.name))
-  // Get and sort attributes for consistent comparison.
-  const receivedAttributes = Array.from(received.attributes).sort((a, b) =>
-    a.name.localeCompare(b.name),
-  )
-  const expectedAttributes = Array.from(expected.attributes).sort((a, b) =>
-    a.name.localeCompare(b.name),
-  )
+  // // Compare computed styles
+  if (received instanceof HTMLElement && expected instanceof HTMLElement) {
+    const receivedStyle = getComputedStyle(received)
+    const expectedStyle = getComputedStyle(expected)
 
-  if (receivedAttributes.length !== expectedAttributes.length) {
-    throw new Error(
-      `Attribute count mismatch at ${path}. Received: ${receivedAttributes.length}, Expected: ${expectedAttributes.length}`,
-    )
-  }
-
-  const receivedStyle = normalizeStyleAttribute(received)
-  const expectedStyle = normalizeStyleAttribute(expected)
-
-  if (receivedStyle !== expectedStyle) {
-    throw new Error(
-      `Style mismatch at ${path}. Received ${receivedStyle}, expected ${expectedStyle}`,
-    )
-  }
-
-  for (let i = 0; i < receivedAttributes.length; i++) {
-    const receivedAttribute = receivedAttributes[i]!
-    const expectedAttribute = expectedAttributes[i]!
-
-    if (receivedAttribute.name !== expectedAttribute.name) {
+    if (receivedStyle !== expectedStyle) {
       throw new Error(
-        `Attribute name mismatch at ${path}. Found '${receivedAttribute.name}', expected '${expectedAttribute.name}'`,
+        `Style mismatch at ${path}. Received ${receivedStyle}, expected ${expectedStyle}`,
+      )
+    }
+  }
+
+  // Compare attributes
+  if (received instanceof Element && expected instanceof Element) {
+    // return Array.from(node.attributes).sort((a, b) => a.name.localeCompare(b.name))
+    // Get and sort attributes for consistent comparison.
+    const receivedAttributes = Array.from(received.attributes).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )
+    const expectedAttributes = Array.from(expected.attributes).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )
+
+    if (receivedAttributes.length !== expectedAttributes.length) {
+      throw new Error(
+        `Attribute count mismatch at ${path}. Received: ${receivedAttributes.length}, Expected: ${expectedAttributes.length}`,
       )
     }
 
-    if (receivedAttribute.name === 'style') {
-      continue
-    }
+    for (let i = 0; i < receivedAttributes.length; i++) {
+      const receivedAttribute = receivedAttributes[i]!
+      const expectedAttribute = expectedAttributes[i]!
 
-    if (receivedAttribute.value !== expectedAttribute.value) {
-      throw new Error(
-        `Attribute value mismatch for '${receivedAttribute.name}' at ${path}. Received: '${receivedAttribute.value}', Expected: '${expectedAttribute.value}'`,
-      )
+      if (receivedAttribute.name !== expectedAttribute.name) {
+        throw new Error(
+          `Attribute name mismatch at ${path}. Found '${receivedAttribute.name}', expected '${expectedAttribute.name}'`,
+        )
+      }
+
+      // We handle computed styles
+      if (receivedAttribute.name === 'style') {
+        continue
+      }
+
+      if (receivedAttribute.value !== expectedAttribute.value) {
+        throw new Error(
+          `Attribute value mismatch for '${receivedAttribute.name}' at ${path}. Received: '${receivedAttribute.value}', Expected: '${expectedAttribute.value}'`,
+        )
+      }
     }
   }
 
@@ -111,7 +118,7 @@ export function compareElements(received: HTMLElement, expected: HTMLElement, pa
     }
 
     if (receivedChild instanceof HTMLElement && expectedChild instanceof HTMLElement) {
-      compareElements(receivedChild, expectedChild, childPath)
+      compareNodes(receivedChild, expectedChild, childPath)
     } else if (receivedChild.textContent !== expectedChild.textContent) {
       throw new Error(
         `Text content mismatch at ${path}. Received: '${received.textContent}', Expected: '${expected.textContent}'`,

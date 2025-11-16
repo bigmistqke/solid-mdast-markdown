@@ -12,7 +12,7 @@ declare module 'vitest' {
 // setup.ts
 import { JSDOM } from 'jsdom'
 import { expect } from 'vitest'
-import { compareElements } from '../src/utils'
+import { compareNodes } from '../src/utils'
 
 // Set up the custom Vitest matcher.
 export function setup() {
@@ -25,7 +25,7 @@ export function setup() {
       const rootB = domB.window.document.body
 
       try {
-        compareElements(rootA, rootB, 'document.body')
+        compareNodes(rootA, rootB, 'document.body')
         return { pass: true, message: () => 'Success!' }
       } catch (error) {
         return {

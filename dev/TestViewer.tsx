@@ -118,6 +118,24 @@ function Test(props: TestProps) {
           >
             {props.input}
           </pre>
+          <Show when={props.extensions}>
+            <div class={styles.subtitle}>Extensions: </div>
+            <ul>
+              <For each={props.extensions}>
+                {extension => (
+                  <li>
+                    <MdastRenderer markdown="`extension`" />
+                  </li>
+                )}
+              </For>
+            </ul>
+          </Show>
+          <Show when={props.mdastExtensions}>
+            <div class={styles.subtitle}>Mdast Extensions: </div>
+            <ul>
+              <For each={props.mdastExtensions}>{extension => <li>{extension}</li>}</For>
+            </ul>
+          </Show>
         </div>
 
         {/* B: Actual Result (CSR Rendered) */}
@@ -154,7 +172,7 @@ function Test(props: TestProps) {
             <div class={styles.subtitle}>Rendered:</div>
             <div ref={element!} class={styles.container}>
               <MdastRenderer
-                content={props.input}
+                markdown={props.input}
                 extensions={props.extensions?.map(key => extensions[key]())}
                 mdastExtensions={props.mdastExtensions?.map(key => mdastExtensions[key]())}
               />

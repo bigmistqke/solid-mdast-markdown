@@ -26,7 +26,6 @@ export default defineConfig({
       external: [
         'solid-js',
         'solid-js/web',
-        'mdast-util-from-markdown',
       ],
       output: {
         globals: {

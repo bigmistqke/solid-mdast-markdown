@@ -27,10 +27,10 @@ A SolidJS component for rendering Markdown via [mdast](https://github.com/syntax
 - **Strikethrough** - `~~deleted text~~` syntax
 
 ### Advanced Features
-- **Custom Renderers** - Override any node type with custom components
+- **Custom Components** - Override any node type with custom components
 - **Extension Support** - Compatible with micromark extensions
 - **Mdast Extensions** - Support for mdast-util extensions
-- **Context API** - Access to node stack and markdown props in custom renderers
+- **Context API** - Access to node stack and markdown props in custom components
 
 ## Installation
 
@@ -68,22 +68,20 @@ This is a **bold** statement with *italic* text.
 }
 ```
 
-## Custom Renderers
+## Custom Components
 
 You can override the default rendering for any node type:
 
 ```tsx
 import { Markdown, Slot } from '@bigmistqke/solid-mdast-renderer';
 
-const customRenderers = {
-  // Custom paragraph renderer
+const components = {
   paragraph: (props) => (
     <p class="custom-paragraph">
       <Slot.Children node={props.node} />
     </p>
   ),
   
-  // Custom link renderer
   link: (props) => (
     <a 
       href={props.node.url} 
@@ -94,7 +92,6 @@ const customRenderers = {
     </a>
   ),
   
-  // Custom heading renderer
   heading: (props) => {
     const Tag = `h${props.node.depth}`;
     return (
@@ -106,8 +103,8 @@ const customRenderers = {
 };
 
 <Markdown 
-  markdown={content} 
-  renderers={customRenderers}
+  markdown="# Hello World!"
+  components={components}
 />
 ```
 
@@ -136,12 +133,12 @@ const markdown = `
 
 ## Context Hooks
 
-Custom renderers can access context information:
+Custom components can access context information:
 
 ```tsx
 import { useNodeStack, useMarkdownRendererProps } from '@bigmistqke/solid-mdast-renderer';
 
-const CustomRenderer = (props) => {
+const CustomComponent = (props) => {
   // Get the current node stack (useful for nested contexts)
   const nodeStack = useNodeStack();
   

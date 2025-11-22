@@ -1,5 +1,5 @@
 import type { Node, RootContentMap } from 'mdast'
-import { fromMarkdown, type Extension as MdastExtension } from 'mdast-util-from-markdown'
+import { fromMarkdown, Options, type Extension as MdastExtension } from 'mdast-util-from-markdown'
 import * as gfm from 'mdast-util-gfm'
 import type { Extension } from 'micromark-util-types'
 import {
@@ -8,6 +8,7 @@ import {
   createMemo,
   For,
   Show,
+  splitProps,
   useContext,
   type Component,
 } from 'solid-js'
@@ -16,15 +17,13 @@ import { createDebug } from './utils'
 
 const debug = createDebug('MdastRenderer', false)
 
-interface MarkdownProps<TMap = RootContentMap> {
+interface MarkdownProps<TMap = RootContentMap> extends Options {
   markdown: string
   renderers?: Partial<{
     [TKey in keyof TMap]: Component<{
       node: TMap[TKey]
     }>
   }>
-  extensions?: Array<Extension>
-  mdastExtensions?: Array<MdastExtension | Array<MdastExtension>>
 }
 
 /**********************************************************************************/
@@ -314,8 +313,8 @@ export const Slot = {
  * @param {Array<MdastExtension | Array<MdastExtension>>} [props.mdastExtensions] - mdast extensions
  * @example
  * ```tsx
- * <Markdown 
- *   markdown="# Hello World" 
+ * <Markdown
+ *   markdown="# Hello World"
  *   renderers={{ heading: CustomHeading }}
  *   extensions={[gfm()]}
  *   mdastExtensions={[gfmFromMarkdown()]}
@@ -323,13 +322,8 @@ export const Slot = {
  * ```
  */
 export function Markdown<T = RootContentMap>(props: MarkdownProps<T>) {
-  const root = createMemo(() =>
-    fromMarkdown(props.markdown, {
-      extensions: props.extensions,
-      mdastExtensions: props.mdastExtensions,
-    }),
-  )
-
+  const [, options] = splitProps(props, ['markdown', 'renderers'])
+  const root = createMemo(() => fromMarkdown(props.markdown, options))
   return (
     <MarkdownPropsContext.Provider value={props}>
       <Slot.Children node={root()} />

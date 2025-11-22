@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Build dev
-        run: VITE_BASE=solid-mdast-markdown pnpm build:dev
+        run: VITE_BASE=solid-mdast-renderer pnpm build:dev
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

@@ -1,5 +1,5 @@
 {
-  "name": "solid-mdast-markdown",
+  "name": "@bigmistqke/solid-mdast-renderer",
   "version": "0.0.0",
   "description": "mdast based markdown renderer with solid for templating",
   "license": "MIT",
@@ -7,11 +7,11 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bigmistqke/solid-mdast-markdown.git"
+    "url": "git+https://github.com/bigmistqke/solid-mdast-renderer.git"
   },
-  "homepage": "https://github.com/bigmistqke/solid-mdast-markdown#readme",
+  "homepage": "https://github.com/bigmistqke/solid-mdast-renderer#readme",
   "bugs": {
-    "url": "https://github.com/bigmistqke/solid-mdast-markdown/issues"
+    "url": "https://github.com/bigmistqke/solid-mdast-renderer/issues"
   },
   "files": [
     "dist"

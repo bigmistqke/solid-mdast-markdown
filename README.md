@@ -1,8 +1,8 @@
 <p>
-  <img width="100%" src="https://assets.solidjs.com/banner?type=solid-mdast-markdown&background=tiles&project=%20" alt="solid-mdast-markdown">
+  <img width="100%" src="https://assets.solidjs.com/banner?type=solid-mdast-renderer&background=tiles&project=%20" alt="solid-mdast-renderer">
 </p>
 
-# solid-mdast-markdown
+# solid-mdast-renderer
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
 
@@ -13,15 +13,15 @@ mdast based markdown renderer
 Install it:
 
 ```bash
-npm i @bigmistqke/solid-mdast-markdown
+npm i @bigmistqke/solid-mdast-renderer
 # or
-yarn add @bigmistqke/solid-mdast-markdown
+yarn add @bigmistqke/solid-mdast-renderer
 # or
-pnpm add @bigmistqke/solid-mdast-markdown
+pnpm add @bigmistqke/solid-mdast-renderer
 ```
 
 Use it:
 
 ```tsx
-import solid-mdast-markdown from '@bigmistqke/solid-mdast-markdown'
+import solid-mdast-renderer from '@bigmistqke/solid-mdast-renderer'
 ```

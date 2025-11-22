@@ -1,7 +1,7 @@
 {
   "name": "@bigmistqke/solid-mdast-renderer",
   "version": "0.1.4",
-  "description": "mdast based markdown renderer with solid for templating",
+  "description": "solid markdown renderer powered by mdast-util-from-markdown",
   "license": "MIT",
   "author": "bigmistqke",
   "contributors": [],
@@ -49,18 +49,14 @@
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
-    "@types/mdast": "^4.0.4",
-    "bumpp": "^10.3.1",
-    "mdast-util-from-markdown": "^2.0.2",
-    "mdast-util-gfm-table": "^2.0.0",
-    "micromark-extension-gfm-table": "^2.1.1",
-    "micromark-util-types": "^2.0.2"
+    "mdast-util-from-markdown": "^2.0.2"
   },
   "peerDependencies": {
     "mdast-util-from-markdown": "^2.0.2",
     "solid-js": "^1.6.0"
   },
   "devDependencies": {
+    "@types/mdast": "^4.0.4",
     "@solidjs/router": "^0.15.4",
     "@solidjs/testing-library": "^0.8.10",
     "@types/jsdom": "^27.0.0",
@@ -86,10 +82,14 @@
     "vite": "^5.2.11",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-solid": "^2.10.2",
-    "vitest": "^3.0.0"
+    "vitest": "^3.0.0",
+    "bumpp": "^10.3.1"
   },
   "keywords": [
-    "solid"
+    "solid",
+    "markdown",
+    "md",
+    "mdast"
   ],
   "packageManager": "pnpm@9.1.1",
   "engines": {

@@ -9,7 +9,7 @@ import {
   Show,
 } from 'solid-js'
 import { createStore } from 'solid-js/store'
-import spec from '../snapshots'
+import snapshots from '../snapshots'
 import { extensions, mdastExtensions } from '../snapshots/extensions'
 import { TestCase } from '../snapshots/types'
 import { MdastRenderer } from '../src'
@@ -311,7 +311,7 @@ export function TestViewer() {
       </div>
 
       <div style={{ display: 'grid', gap: '20px' }}>
-        <For each={Object.entries(spec)}>
+        <For each={Object.entries(snapshots)}>
           {([title, props]) => {
             return (
               <Show when={selected(title)}>

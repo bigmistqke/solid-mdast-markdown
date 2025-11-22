@@ -12,7 +12,7 @@ import snapshots from '../index.ts'
 
 const debug = createDebug('MdastRenderer/generate-html', true)
 
-const specPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'spec.ts')
+const snapshotPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'index.ts')
 
 debug('Generating HTML for all test cases...')
 
@@ -50,4 +50,4 @@ export default ${JSON.stringify(serializedSpec, null, 2)} as Spec
   { parser: 'typescript' },
 )
 
-writeFileSync(specPath, formattedspec)
+writeFileSync(snapshotPath, formattedspec)

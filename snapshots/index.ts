@@ -217,13 +217,11 @@ export default {
   },
   "renders bold within italic": {
     input: "*This is italic with **bold** inside*",
-    output:
-      "<p><em>This is italic with <strong>bold</strong> inside</em></p>",
+    output: "<p><em>This is italic with <strong>bold</strong> inside</em></p>",
   },
   "renders italic within bold": {
     input: "**This is bold with *italic* inside**",
-    output:
-      "<p><strong>This is bold with <em>italic</em> inside</strong></p>",
+    output: "<p><strong>This is bold with <em>italic</em> inside</strong></p>",
   },
   "renders links with emphasis": {
     input:

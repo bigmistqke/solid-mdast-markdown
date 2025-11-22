@@ -4,7 +4,7 @@ import { TestViewer } from './TestViewer'
 
 const App: Component = () => {
   return (
-    <Router base={import.meta.env.VITE_BASE ?? './'}>
+    <Router base={import.meta.env.VITE_BASE ?? ''}>
       <Route path="/" component={TestViewer} />
     </Router>
   )

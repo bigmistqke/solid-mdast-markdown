@@ -1,5 +1,13 @@
 import { useSearchParams } from '@solidjs/router'
-import { createMemo, createSelector, createSignal, For, onMount, Show } from 'solid-js'
+import {
+  createEffect,
+  createMemo,
+  createSelector,
+  createSignal,
+  For,
+  onMount,
+  Show,
+} from 'solid-js'
 import { createStore } from 'solid-js/store'
 import spec from '../snapshots'
 import { extensions, mdastExtensions } from '../snapshots/extensions'
@@ -22,7 +30,6 @@ function Test(props: TestProps) {
   const [raw, setRaw] = createSignal<string>()
 
   onMount(() => {
-    console.log(element.innerHTML)
     setRaw(element.innerHTML)
 
     try {
@@ -31,12 +38,16 @@ function Test(props: TestProps) {
         parser.parseFromString(element.innerHTML, 'text/html').querySelector('body')!,
         parser.parseFromString(props.output, 'text/html').querySelector('body')!,
       )
-
       setResult({ success: true })
     } catch (error) {
-      // console.error('Error', error)
       setResult({ success: false, error: error instanceof Error ? error.message : `${error}` })
     }
+  })
+
+  createEffect(() => {
+    const _result = result()
+    if (!_result) return
+    props.onResult(_result)
   })
 
   return (

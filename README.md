@@ -64,13 +64,13 @@ This is a **bold** statement with *italic* text.
 You can override the default rendering for any node type:
 
 ```tsx
-import { Markdown } from 'solid-lezer-markdown';
+import { Markdown, Slot } from 'solid-lezer-markdown';
 
 const customRenderers = {
   // Custom paragraph renderer
   paragraph: (props) => (
     <p class="custom-paragraph">
-      <DefaultChildren node={props.node} />
+      <Slot.Children node={props.node} />
     </p>
   ),
   
@@ -81,7 +81,7 @@ const customRenderers = {
       class="custom-link"
       target="_blank"
     >
-      <DefaultChildren node={props.node} />
+      <Slot.Children node={props.node} />
     </a>
   ),
   
@@ -90,7 +90,7 @@ const customRenderers = {
     const Tag = `h${props.node.depth}`;
     return (
       <Tag class={`heading-${props.node.depth}`}>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </Tag>
     );
   }

@@ -79,7 +79,7 @@ export const DefaultNodeRenderers: {
   blockquote(props) {
     return (
       <blockquote>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </blockquote>
     )
   },
@@ -101,7 +101,7 @@ export const DefaultNodeRenderers: {
   delete(props) {
     return (
       <del>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </del>
     )
   },
@@ -110,7 +110,7 @@ export const DefaultNodeRenderers: {
   emphasis(props) {
     return (
       <em>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </em>
     )
   },
@@ -119,7 +119,7 @@ export const DefaultNodeRenderers: {
   heading(props) {
     return (
       <Dynamic component={`h${props.node.depth}`}>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </Dynamic>
     )
   },
@@ -142,7 +142,7 @@ export const DefaultNodeRenderers: {
   link(props) {
     return (
       <a href={props.node.url} target="_blank" rel="noopener noreferrer">
-        <For each={props.node.children}>{node => <DefaultNode node={node} />}</For>
+        <For each={props.node.children}>{node => <Slot.Node node={node} />}</For>
       </a>
     )
   },
@@ -152,7 +152,7 @@ export const DefaultNodeRenderers: {
   list(props) {
     return (
       <Dynamic component={props.node.ordered ? 'ol' : 'ul'}>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </Dynamic>
     )
   },
@@ -164,11 +164,11 @@ export const DefaultNodeRenderers: {
         <Show
           when={props.node.spread}
           /* We skip the paragraph node when the list-item is not spread */
-          fallback={<DefaultChildren node={props.node.children[0]!} />}
+          fallback={<Slot.Children node={props.node.children[0]!} />}
         >
-          <DefaultNode node={props.node.children[0]!} />
+          <Slot.Node node={props.node.children[0]!} />
         </Show>
-        <For each={props.node.children.slice(1)}>{node => <DefaultNode node={node} />}</For>
+        <For each={props.node.children.slice(1)}>{node => <Slot.Node node={node} />}</For>
       </li>
     )
   },
@@ -177,7 +177,7 @@ export const DefaultNodeRenderers: {
   paragraph(props) {
     return (
       <p>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </p>
     )
   },
@@ -186,7 +186,7 @@ export const DefaultNodeRenderers: {
   strong(props) {
     return (
       <strong>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </strong>
     )
   },
@@ -199,7 +199,7 @@ export const DefaultNodeRenderers: {
   tableRow(props) {
     return (
       <tr>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </tr>
     )
   },
@@ -208,7 +208,7 @@ export const DefaultNodeRenderers: {
     const context = useContext(TableCellContext)
     return (
       <Dynamic component={context === 'head' ? 'th' : 'td'}>
-        <DefaultChildren node={props.node} />
+        <Slot.Children node={props.node} />
       </Dynamic>
     )
   },
@@ -219,12 +219,12 @@ export const DefaultNodeRenderers: {
       <table>
         <TableCellContext.Provider value="head">
           <thead>
-            <DefaultNode node={props.node.children[0]!} />
+            <Slot.Node node={props.node.children[0]!} />
           </thead>
         </TableCellContext.Provider>
         <TableCellContext.Provider value="body">
           <tbody>
-            <For each={props.node.children.slice(1)}>{row => <DefaultNode node={row} />}</For>
+            <For each={props.node.children.slice(1)}>{row => <Slot.Node node={row} />}</For>
           </tbody>
         </TableCellContext.Provider>
       </table>
@@ -236,39 +236,41 @@ export const DefaultNodeRenderers: {
   },
 }
 
-function DefaultChildren(props: { node: Node }) {
-  return (
-    <For
-      each={
-        'children' in props.node && Array.isArray(props.node.children) ? props.node.children : []
+export const Slot = {
+  Children(props: { node: Node }) {
+    return (
+      <For
+        each={
+          'children' in props.node && Array.isArray(props.node.children) ? props.node.children : []
+        }
+      >
+        {node => <Slot.Node node={node} />}
+      </For>
+    )
+  },
+
+  Node(props: { node: Node }): any {
+    const mdastRendererProps = useMarkdownRendererProps()
+    debug('DefaultNode processing:', props.node)
+
+    const Comp = () =>
+      // @ts-expect-error
+      mdastRendererProps.renderers?.[props.node.type] ?? DefaultNodeRenderers[props.node.type]
+
+    createEffect(() => {
+      if (!Comp()) {
+        throw new Error(`No Renderer For ${props.node.type}`)
       }
-    >
-      {node => <DefaultNode node={node} />}
-    </For>
-  )
-}
+    })
 
-function DefaultNode(props: { node: Node }): any {
-  const mdastRendererProps = useMarkdownRendererProps()
-  debug('DefaultNode processing:', props.node)
-
-  const Comp = () =>
-    // @ts-expect-error
-    mdastRendererProps.renderers?.[props.node.type] ?? DefaultNodeRenderers[props.node.type]
-
-  createEffect(() => {
-    if (!Comp()) {
-      throw new Error(`No Renderer For ${props.node.type}`)
-    }
-  })
-
-  return (
-    <NodeStackContext.Provider value={[props.node, ...useNodeStack()]}>
-      <Show when={Comp()} keyed>
-        {Comp => <Comp node={props.node} />}
-      </Show>
-    </NodeStackContext.Provider>
-  )
+    return (
+      <NodeStackContext.Provider value={[props.node, ...useNodeStack()]}>
+        <Show when={Comp()} keyed>
+          {Comp => <Comp node={props.node} />}
+        </Show>
+      </NodeStackContext.Provider>
+    )
+  },
 }
 
 export function Markdown(props: MarkdownProps) {
@@ -281,7 +283,7 @@ export function Markdown(props: MarkdownProps) {
 
   return (
     <MarkdownPropsContext.Provider value={props}>
-      <DefaultChildren node={root()} />
+      <Slot.Children node={root()} />
     </MarkdownPropsContext.Provider>
   )
 }

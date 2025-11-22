@@ -1,6 +1,6 @@
 {
   "name": "@bigmistqke/solid-mdast-renderer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "mdast based markdown renderer with solid for templating",
   "license": "MIT",
   "author": "bigmistqke",

@@ -71,7 +71,7 @@ function Test(props: TestProps) {
       >
         <div>
           <h3 class={styles.title}>
-            <a href={`/?t=${props.title}`}>🔗</a> {props.title}
+            <a href={`./?t=${props.title}`}>🔗</a> {props.title}
           </h3>
         </div>
         <div
@@ -158,7 +158,7 @@ function Test(props: TestProps) {
             'overflow-x': 'hidden',
           }}
         >
-          <div class={styles.subtitle}>B: Actual Result (CSR)</div>
+          <div class={styles.subtitle}>B: CSR Markdown</div>
 
           {/* B1: Raw HTML String */}
           <div style={{ 'margin-bottom': '8px' }}>
@@ -200,7 +200,7 @@ function Test(props: TestProps) {
             'overflow-x': 'hidden',
           }}
         >
-          <div class={styles.subtitle}>C: Expected (SSR Snapshot)</div>
+          <div class={styles.subtitle}>C: SSR Snapshot</div>
 
           {/* C1: Raw HTML String */}
           <div style={{ 'margin-bottom': '8px' }}>

@@ -19,7 +19,7 @@ gfm.gfmToMarkdown
 const debug = createDebug('MdastRenderer', false)
 
 // Use parser with table and strikethrough support
-const MdastRendererPropsContext = createContext<MdastRendererProps>()
+const MarkdownPropsContext = createContext<MarkdownProps>()
 const NodeStackContext = createContext<Array<Node>>([])
 const TableCellContext = createContext<'head' | 'body'>()
 
@@ -27,15 +27,15 @@ function useNodeStack() {
   return useContext(NodeStackContext) as [Node, ...Array<Node>]
 }
 
-function useMdastRendererProps() {
-  const context = useContext(MdastRendererPropsContext)
+function useMarkdownRendererProps() {
+  const context = useContext(MarkdownPropsContext)
   if (!context) {
-    throw new Error('Use useMdastRendererProps in a descendant of MdastRenderer')
+    throw new Error('Use useMarkdownProps in a descendant of MdastRenderer')
   }
   return context
 }
 
-interface MdastRendererProps {
+interface MarkdownProps {
   markdown: string
   renderers?: Partial<typeof DefaultNodeRenderers>
   extensions?: Array<Extension>
@@ -249,7 +249,7 @@ function DefaultChildren(props: { node: Node }) {
 }
 
 function DefaultNode(props: { node: Node }): any {
-  const mdastRendererProps = useMdastRendererProps()
+  const mdastRendererProps = useMarkdownRendererProps()
   debug('DefaultNode processing:', props.node)
 
   const Comp = () =>
@@ -271,7 +271,7 @@ function DefaultNode(props: { node: Node }): any {
   )
 }
 
-export function MdastRenderer(props: MdastRendererProps) {
+export function Markdown(props: MarkdownProps) {
   const root = createMemo(() =>
     fromMarkdown(props.markdown, {
       extensions: props.extensions,
@@ -280,8 +280,8 @@ export function MdastRenderer(props: MdastRendererProps) {
   )
 
   return (
-    <MdastRendererPropsContext.Provider value={props}>
+    <MarkdownPropsContext.Provider value={props}>
       <DefaultChildren node={root()} />
-    </MdastRendererPropsContext.Provider>
+    </MarkdownPropsContext.Provider>
   )
 }

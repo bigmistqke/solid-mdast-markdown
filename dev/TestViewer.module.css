@@ -1,9 +1,5 @@
-.container {
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 8px;
-  min-height: 40px;
-  overflow: auto;
+.markdown {
+  
 
   & p:first-child {
     margin-top: 0;
@@ -67,6 +63,14 @@
     border: none;
     border-top: 1px solid var(--cm-editor-selectionBackground, #ddd);
   }
+}
+
+.container {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px;
+  min-height: 40px;
+  overflow: auto;
 }
 
 .result {

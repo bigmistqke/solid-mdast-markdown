@@ -13,15 +13,19 @@ mdast based markdown renderer
 Install it:
 
 ```bash
-npm i @bigmistqke/solid-mdast-renderer
+npm i mdast-util-from-markdown @bigmistqke/solid-mdast-renderer
 # or
-yarn add @bigmistqke/solid-mdast-renderer
+yarn add mdast-util-from-markdown @bigmistqke/solid-mdast-renderer
 # or
-pnpm add @bigmistqke/solid-mdast-renderer
+pnpm add mdast-util-from-markdown @bigmistqke/solid-mdast-renderer
 ```
 
 Use it:
 
 ```tsx
-import solid-mdast-renderer from '@bigmistqke/solid-mdast-renderer'
+import { Markdown } from '@bigmistqke/solid-mdast-renderer'
+
+export function App() {
+  return <Markdown markdown="# Hello World!" />
+}
 ```

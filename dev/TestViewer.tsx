@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useSearchParams } from '@solidjs/router'
 import {
   createEffect,
@@ -12,7 +13,7 @@ import { createStore } from 'solid-js/store'
 import snapshots from '../snapshots'
 import { extensions, mdastExtensions } from '../snapshots/extensions'
 import { TestCase } from '../snapshots/types'
-import { MdastRenderer } from '../src'
+import { Markdown } from '../src'
 import { compareNodes } from '../src/utils'
 import styles from './TestViewer.module.css'
 
@@ -119,22 +120,32 @@ function Test(props: TestProps) {
             {props.input}
           </pre>
           <Show when={props.extensions}>
-            <div class={styles.subtitle}>Extensions: </div>
-            <ul>
-              <For each={props.extensions}>
-                {extension => (
-                  <li>
-                    <MdastRenderer markdown="`extension`" />
-                  </li>
-                )}
-              </For>
-            </ul>
+            {extensions => (
+              <>
+                <div class={styles.subtitle}>Extensions: </div>
+                <div class={styles.markdown}>
+                  <Markdown
+                    markdown={extensions()
+                      .map(extension => `- \`${extension}\``)
+                      .join('\n')}
+                  />
+                </div>
+              </>
+            )}
           </Show>
           <Show when={props.mdastExtensions}>
-            <div class={styles.subtitle}>Mdast Extensions: </div>
-            <ul>
-              <For each={props.mdastExtensions}>{extension => <li>{extension}</li>}</For>
-            </ul>
+            {mdastExtensions => (
+              <>
+                <div class={styles.subtitle}>Mdast Extensions: </div>
+                <div class={styles.markdown}>
+                  <Markdown
+                    markdown={mdastExtensions()
+                      .map(extension => `- \`${extension}\``)
+                      .join('\n')}
+                  />
+                </div>
+              </>
+            )}
           </Show>
         </div>
 
@@ -170,8 +181,8 @@ function Test(props: TestProps) {
           {/* B2: Rendered HTML */}
           <div>
             <div class={styles.subtitle}>Rendered:</div>
-            <div ref={element!} class={styles.container}>
-              <MdastRenderer
+            <div ref={element!} class={clsx(styles.container, styles.markdown)}>
+              <Markdown
                 markdown={props.input}
                 extensions={props.extensions?.map(key => extensions[key]())}
                 mdastExtensions={props.mdastExtensions?.map(key => mdastExtensions[key]())}
@@ -213,7 +224,7 @@ function Test(props: TestProps) {
           <div>
             <div class={styles.subtitle}>Rendered:</div>
             <div
-              class={styles.container}
+              class={clsx(styles.container, styles.markdown)}
               innerHTML={props.output !== 'No snapshot found' ? props.output : ''}
             ></div>
             <Show when={props.output === 'No snapshot found'}>

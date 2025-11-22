@@ -6,101 +6,89 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@solidjs/testing-library";
 import { setup } from "./setup.ts";
-import { MdastRenderer } from "../src/index.ts";
+import { Markdown } from "../src/index.ts";
 import { extensions, mdastExtensions } from "../snapshots/extensions.ts";
 
 setup();
 
-describe("MdastRenderer", () => {
+describe("Markdown", () => {
   it("renders heading 1 with 1 asterisk prefix", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"# Heading 1"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"# Heading 1"} />);
     expect(asFragment()).toRenderEqual("<h1 >Heading 1</h1>");
   });
   it("renders heading 2 with 2 asterisks prefix", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"## Heading 2"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"## Heading 2"} />);
     expect(asFragment()).toRenderEqual("<h2 >Heading 2</h2>");
   });
   it("renders heading 3 with 3 asterisks prefix", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"### Heading 3"} />
+      <Markdown markdown={"### Heading 3"} />
     ));
     expect(asFragment()).toRenderEqual("<h3 >Heading 3</h3>");
   });
   it("renders heading 4 with 4 asterisks prefix", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"#### Heading 4"} />
+      <Markdown markdown={"#### Heading 4"} />
     ));
     expect(asFragment()).toRenderEqual("<h4 >Heading 4</h4>");
   });
   it("renders heading 5 with 5 asterisks prefix", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"##### Heading 5"} />
+      <Markdown markdown={"##### Heading 5"} />
     ));
     expect(asFragment()).toRenderEqual("<h5 >Heading 5</h5>");
   });
   it("renders heading 6 with 6 asterisks prefix", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"###### Heading 6"} />
+      <Markdown markdown={"###### Heading 6"} />
     ));
     expect(asFragment()).toRenderEqual("<h6 >Heading 6</h6>");
   });
   it("renders heading 1 with = underline", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Heading 1\n========="} />
+      <Markdown markdown={"Heading 1\n========="} />
     ));
     expect(asFragment()).toRenderEqual("<h1 >Heading 1</h1>");
   });
   it("renders heading 2 with - underline", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Heading 2\n---------"} />
+      <Markdown markdown={"Heading 2\n---------"} />
     ));
     expect(asFragment()).toRenderEqual("<h2 >Heading 2</h2>");
   });
   it("renders a simple paragraph", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"This is a paragraph."} />
+      <Markdown markdown={"This is a paragraph."} />
     ));
     expect(asFragment()).toRenderEqual("<p>This is a paragraph.</p>");
   });
   it("renders multiple paragraphs", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"First paragraph.\n\nSecond paragraph."} />
+      <Markdown markdown={"First paragraph.\n\nSecond paragraph."} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p>First paragraph.</p><p>Second paragraph.</p>",
     );
   });
   it("renders italic text with asterisks", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"*italic*"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"*italic*"} />);
     expect(asFragment()).toRenderEqual("<p><em>italic</em></p>");
   });
   it("renders italic text with underscores", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"_italic_"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"_italic_"} />);
     expect(asFragment()).toRenderEqual("<p><em>italic</em></p>");
   });
   it("renders bold text with double asterisks", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"**bold**"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"**bold**"} />);
     expect(asFragment()).toRenderEqual("<p><strong>bold</strong></p>");
   });
   it("renders bold text with double underscores", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"__bold__"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"__bold__"} />);
     expect(asFragment()).toRenderEqual("<p><strong>bold</strong></p>");
   });
   it("renders emphasis within paragraph", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"This is *italic* and **bold** text."} />
+      <Markdown markdown={"This is *italic* and **bold** text."} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p>This is <em>italic</em> and <strong>bold</strong> text.</p>",
@@ -108,7 +96,7 @@ describe("MdastRenderer", () => {
   });
   it("renders bullet list with dashes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"- Item 1\n- Item 2\n- Item 3"} />
+      <Markdown markdown={"- Item 1\n- Item 2\n- Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
@@ -116,7 +104,7 @@ describe("MdastRenderer", () => {
   });
   it("renders bullet list with asterisks", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"* Item 1\n* Item 2\n* Item 3"} />
+      <Markdown markdown={"* Item 1\n* Item 2\n* Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
@@ -124,7 +112,7 @@ describe("MdastRenderer", () => {
   });
   it("renders bullet list with plus signs", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"+ Item 1\n+ Item 2\n+ Item 3"} />
+      <Markdown markdown={"+ Item 1\n+ Item 2\n+ Item 3"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<ul ><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
@@ -132,9 +120,7 @@ describe("MdastRenderer", () => {
   });
   it("renders ordered list", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
-        markdown={"1. First item\n2. Second item\n3. Third item"}
-      />
+      <Markdown markdown={"1. First item\n2. Second item\n3. Third item"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<ol ><li>First item</li><li>Second item</li><li>Third item</li></ol>",
@@ -142,21 +128,19 @@ describe("MdastRenderer", () => {
   });
   it("renders ordered list with different starting numbers", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
-        markdown={"5. Fifth item\n6. Sixth item\n7. Seventh item"}
-      />
+      <Markdown markdown={"5. Fifth item\n6. Sixth item\n7. Seventh item"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<ol ><li>Fifth item</li><li>Sixth item</li><li>Seventh item</li></ol>",
     );
   });
   it("renders inline code", () => {
-    const { asFragment } = render(() => <MdastRenderer markdown={"`code`"} />);
+    const { asFragment } = render(() => <Markdown markdown={"`code`"} />);
     expect(asFragment()).toRenderEqual("<p><code>code</code></p>");
   });
   it("renders inline code within paragraph", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Use `console.log()` to debug."} />
+      <Markdown markdown={"Use `console.log()` to debug."} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p>Use <code>console.log()</code> to debug.</p>",
@@ -164,7 +148,7 @@ describe("MdastRenderer", () => {
   });
   it("renders fenced code block", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"```\nconst x = 1;\nconsole.log(x);\n```"} />
+      <Markdown markdown={"```\nconst x = 1;\nconsole.log(x);\n```"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<pre><code>const x = 1;\nconsole.log(x);</code></pre>",
@@ -172,7 +156,7 @@ describe("MdastRenderer", () => {
   });
   it("renders fenced code block with language", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"```javascript\nconst x = 1;\nconsole.log(x);\n```"}
       />
     ));
@@ -182,7 +166,7 @@ describe("MdastRenderer", () => {
   });
   it("renders indented code block", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"    const x = 1;\n    console.log(x);"} />
+      <Markdown markdown={"    const x = 1;\n    console.log(x);"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<pre><code>const x = 1;\nconsole.log(x);</code></pre>",
@@ -190,7 +174,7 @@ describe("MdastRenderer", () => {
   });
   it("renders indented code block break", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"    const x = 1;\nconsole.log(x);"} />
+      <Markdown markdown={"    const x = 1;\nconsole.log(x);"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<pre><code>const x = 1;</code></pre><p>console.log(x);</p>",
@@ -198,7 +182,7 @@ describe("MdastRenderer", () => {
   });
   it("renders inline link", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"[Example.com](https://example.com)"} />
+      <Markdown markdown={"[Example.com](https://example.com)"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><a href="https://example.com" target="_blank" rel="noopener noreferrer">Example.com</a></p>',
@@ -206,7 +190,7 @@ describe("MdastRenderer", () => {
   });
   it("renders autolink", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"<https://example.com>"} />
+      <Markdown markdown={"<https://example.com>"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><a href="https://example.com" target="_blank" rel="noopener noreferrer">https://example.com</a></p>',
@@ -214,7 +198,7 @@ describe("MdastRenderer", () => {
   });
   it("renders image", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"![Alt text](image.jpg)"} />
+      <Markdown markdown={"![Alt text](image.jpg)"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><img src="image.jpg" alt="Alt text"></p>',
@@ -222,7 +206,7 @@ describe("MdastRenderer", () => {
   });
   it("renders blockquote", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"> This is a blockquote."} />
+      <Markdown markdown={"> This is a blockquote."} />
     ));
     expect(asFragment()).toRenderEqual(
       "<blockquote><p>This is a blockquote.</p></blockquote>",
@@ -230,7 +214,7 @@ describe("MdastRenderer", () => {
   });
   it("renders multi-line blockquote", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"> First line\n> Second line"} />
+      <Markdown markdown={"> First line\n> Second line"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<blockquote><p>First line\nSecond line</p></blockquote>",
@@ -238,7 +222,7 @@ describe("MdastRenderer", () => {
   });
   it("renders multi-line blockquote with empty line", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"> First line\n>\n> Second line"} />
+      <Markdown markdown={"> First line\n>\n> Second line"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<blockquote><p>First line</p><p>Second line</p></blockquote>",
@@ -246,7 +230,7 @@ describe("MdastRenderer", () => {
   });
   it("renders nested blockquotes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "> This is a blockquote\n> \n> > This is a nested blockquote\n> > \n> > > And this is triple nested"
         }
@@ -258,7 +242,7 @@ describe("MdastRenderer", () => {
   });
   it("renders blockquotes with emphasis and links", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "> This is a **bold** statement with [a link](https://example.com)\n> \n> And this is *italic* text in the same blockquote"
         }
@@ -270,7 +254,7 @@ describe("MdastRenderer", () => {
   });
   it("renders blockquotes with lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "> This blockquote contains a list:\n> \n> 1. First item\n> 2. Second item\n> 3. Third item"
         }
@@ -281,56 +265,56 @@ describe("MdastRenderer", () => {
     );
   });
   it("renders horizontal rule with dashes", () => {
-    const { asFragment } = render(() => <MdastRenderer markdown={"---"} />);
+    const { asFragment } = render(() => <Markdown markdown={"---"} />);
     expect(asFragment()).toRenderEqual("<hr>");
   });
   it("renders horizontal rule with asterisks", () => {
-    const { asFragment } = render(() => <MdastRenderer markdown={"***"} />);
+    const { asFragment } = render(() => <Markdown markdown={"***"} />);
     expect(asFragment()).toRenderEqual("<hr>");
   });
   it("renders horizontal rule with underscores", () => {
-    const { asFragment } = render(() => <MdastRenderer markdown={"___"} />);
+    const { asFragment } = render(() => <Markdown markdown={"___"} />);
     expect(asFragment()).toRenderEqual("<hr>");
   });
   it("handles backslash escapes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"\\*not italic\\*"} />
+      <Markdown markdown={"\\*not italic\\*"} />
     ));
     expect(asFragment()).toRenderEqual("<p>*not italic*</p>");
   });
   it("handles escaped characters", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"\\# Not a header"} />
+      <Markdown markdown={"\\# Not a header"} />
     ));
     expect(asFragment()).toRenderEqual("<p># Not a header</p>");
   });
   it("handles HTML entities", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"&amp; &lt; &gt;"} />
+      <Markdown markdown={"&amp; &lt; &gt;"} />
     ));
     expect(asFragment()).toRenderEqual("<p>&amp; &lt; ></p>");
   });
   it("handles special entities", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"&copy; &trade;"} />
+      <Markdown markdown={"&copy; &trade;"} />
     ));
     expect(asFragment()).toRenderEqual("<p>© ™</p>");
   });
   it("handles soft line breaks", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Line one\nLine two"} />
+      <Markdown markdown={"Line one\nLine two"} />
     ));
     expect(asFragment()).toRenderEqual("<p>Line one\nLine two</p>");
   });
   it("handles hard line breaks", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Line one  \nLine two"} />
+      <Markdown markdown={"Line one  \nLine two"} />
     ));
     expect(asFragment()).toRenderEqual("<p>Line one<br>Line two</p>");
   });
   it("handles complex nested markdown", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "# Header\n\nThis is a **bold** paragraph with *italic* text and `code`.\n\n- List item with [link](https://example.com)\n- Another item\n\n> Blockquote with **emphasis**"
         }
@@ -342,7 +326,7 @@ describe("MdastRenderer", () => {
   });
   it("renders deeply nested unordered lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"- Level 1\n  - Level 2\n    - Level 3\n      - Level 4"}
       />
     ));
@@ -352,7 +336,7 @@ describe("MdastRenderer", () => {
   });
   it("renders mixed nested lists (ordered and unordered)", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "1. First ordered item\n   - Nested unordered item\n   - Another nested item\n2. Second ordered item\n   1. Nested ordered item\n   2. Another nested ordered item"
         }
@@ -364,7 +348,7 @@ describe("MdastRenderer", () => {
   });
   it("renders lists with multiple paragraphs in items", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "1. First item with multiple paragraphs.\n\n   This is the second paragraph of the first item.\n\n2. Second item with code:\n\n   ```javascript\n   console.log('Hello from list');\n   ```"
         }
@@ -376,7 +360,7 @@ describe("MdastRenderer", () => {
   });
   it("renders bold within italic", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"*This is italic with **bold** inside*"} />
+      <Markdown markdown={"*This is italic with **bold** inside*"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><em>This is italic with <strong>bold</strong> inside</em></p>",
@@ -384,7 +368,7 @@ describe("MdastRenderer", () => {
   });
   it("renders italic within bold", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"**This is bold with *italic* inside**"} />
+      <Markdown markdown={"**This is bold with *italic* inside**"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><strong>This is bold with <em>italic</em> inside</strong></p>",
@@ -392,7 +376,7 @@ describe("MdastRenderer", () => {
   });
   it("renders links with emphasis", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "[**Bold link**](https://example.com) and [*italic link*](https://test.com)"
         }
@@ -404,9 +388,7 @@ describe("MdastRenderer", () => {
   });
   it("renders images within links", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
-        markdown={"[![Alt text](image.jpg)](https://example.com)"}
-      />
+      <Markdown markdown={"[![Alt text](image.jpg)](https://example.com)"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><a href="https://example.com" target="_blank" rel="noopener noreferrer"><img src="image.jpg" alt="Alt text"></a></p>',
@@ -414,7 +396,7 @@ describe("MdastRenderer", () => {
   });
   it("renders links in lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "- [Link 1](https://example.com)\n- Visit [Google](https://google.com) for search\n- Multiple [links](https://a.com) in [one](https://b.com) item"
         }
@@ -426,7 +408,7 @@ describe("MdastRenderer", () => {
   });
   it("renders code within links", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"[Check out `console.log()`](https://developer.mozilla.org)"}
       />
     ));
@@ -436,7 +418,7 @@ describe("MdastRenderer", () => {
   });
   it("renders inline code with emphasis markers that should not be processed", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"`const **bold** = 'not bold';`"} />
+      <Markdown markdown={"`const **bold** = 'not bold';`"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><code>const **bold** = 'not bold';</code></p>",
@@ -444,7 +426,7 @@ describe("MdastRenderer", () => {
   });
   it("renders code blocks in lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "1. Install dependencies:\n   ```bash\n   npm install\n   ```\n\n2. Run the application:\n   ```javascript\n   npm start\n   ```"
         }
@@ -456,7 +438,7 @@ describe("MdastRenderer", () => {
   });
   it("renders code blocks in nested lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "1. Install dependencies:\n   ```bash\n   npm install\n   ```\n\n   1. Run the application:\n      ```javascript\n      npm start\n      ```"
         }
@@ -468,7 +450,7 @@ describe("MdastRenderer", () => {
   });
   it("renders code blocks in blockquotes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           '> Here\'s an example:\n> \n> ```javascript\n> function hello() {\n>   return "world";\n> }\n> ```'
         }
@@ -480,7 +462,7 @@ describe("MdastRenderer", () => {
   });
   it("renders complex document with all features", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           '# Main Title\n\nThis is a **complex document** with *various* elements.\n\n## Features\n\n1. **Lists** with nested items:\n   - Unordered nested list\n   - Another item with `inline code`\n\n2. **Code blocks** with different languages:\n   ```javascript\n   function example() {\n     return "Hello World";\n   }\n   ```\n\n3. **Tables** with complex content\n\n## Quotes and More\n\n> This is a blockquote with **emphasis** and a [link](https://test.com).\n> \n> > Nested quote with `code`\n\n---\n\n### Final Notes\n\nCheck out this image: ![Example](test.jpg)\n\nAnd this autolink: <https://automatic.link>'
         }
@@ -492,7 +474,7 @@ describe("MdastRenderer", () => {
   });
   it("renders edge case with consecutive emphasis", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "This has **bold** and **more bold** and *italic* and *more italic* text."
         }
@@ -504,7 +486,7 @@ describe("MdastRenderer", () => {
   });
   it("renders emphasis across line breaks", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"This is **bold text that\ncontinues on the next line**"}
       />
     ));
@@ -514,7 +496,7 @@ describe("MdastRenderer", () => {
   });
   it("renders mixed list types in complex document", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           '## Mixed Lists\n\n1. Ordered item one\n   - Nested unordered\n   - Another nested\n     1. Deep nested ordered\n     2. Another deep ordered\n\n2. Ordered item two\n   > With a blockquote\n   > \n   > And **emphasis**\n\n3. Ordered item three with code:\n   ```python\n   print("Hello from Python")\n   ```'
         }
@@ -526,29 +508,25 @@ describe("MdastRenderer", () => {
   });
   it("handles unbalanced emphasis markers", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
-        markdown={"This has **unbalanced bold and *mixed emphasis**"}
-      />
+      <Markdown markdown={"This has **unbalanced bold and *mixed emphasis**"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p>This has *<em>unbalanced bold and <em>mixed emphasis</em></em></p>",
     );
   });
   it("handles empty code blocks", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"```\n```"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"```\n```"} />);
     expect(asFragment()).toRenderEqual("<pre><code></code></pre>");
   });
   it("handles code blocks without closing", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"```javascript\nconst x = 1;"} />
+      <Markdown markdown={"```javascript\nconst x = 1;"} />
     ));
     expect(asFragment()).toRenderEqual("<pre><code>const x = 1;</code></pre>");
   });
   it("handles consecutive same emphasis types correctly", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"**This is** nested **bold**"} />
+      <Markdown markdown={"**This is** nested **bold**"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><strong>This is</strong> nested <strong>bold</strong></p>",
@@ -556,7 +534,7 @@ describe("MdastRenderer", () => {
   });
   it("handles consecutive italic emphasis correctly", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"*This is* nested *italic*"} />
+      <Markdown markdown={"*This is* nested *italic*"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><em>This is</em> nested <em>italic</em></p>",
@@ -564,7 +542,7 @@ describe("MdastRenderer", () => {
   });
   it("handles triple asterisk emphasis correctly", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"***This is*** nested ***bold italic***"} />
+      <Markdown markdown={"***This is*** nested ***bold italic***"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><em><strong>This is</strong></em> nested <em><strong>bold italic</strong></em></p>",
@@ -572,7 +550,7 @@ describe("MdastRenderer", () => {
   });
   it("handles proper separated emphasis correctly", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"**this** is **bold**"} />
+      <Markdown markdown={"**this** is **bold**"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><strong>this</strong> is <strong>bold</strong></p>",
@@ -580,7 +558,7 @@ describe("MdastRenderer", () => {
   });
   it("handles links without URLs", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"[Link text]()"} />
+      <Markdown markdown={"[Link text]()"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><a href="" target="_blank" rel="noopener noreferrer">Link text</a></p>',
@@ -588,13 +566,13 @@ describe("MdastRenderer", () => {
   });
   it("handles images without src", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"![Alt text]()"} />
+      <Markdown markdown={"![Alt text]()"} />
     ));
     expect(asFragment()).toRenderEqual('<p><img src="" alt="Alt text"></p>');
   });
   it("renders task lists with checkboxes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "- [x] Completed task\n- [ ] Incomplete task\n- [x] Another completed task"
         }
@@ -606,7 +584,7 @@ describe("MdastRenderer", () => {
   });
   it("renders nested task lists", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "- [x] Main task\n  - [x] Subtask 1\n  - [ ] Subtask 2\n    - [x] Sub-subtask"
         }
@@ -618,7 +596,7 @@ describe("MdastRenderer", () => {
   });
   it("handles large documents efficiently", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "## Section 1\n\nThis is paragraph 1 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 2\n\nThis is paragraph 2 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 3\n\nThis is paragraph 3 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 4\n\nThis is paragraph 4 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 5\n\nThis is paragraph 5 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 6\n\nThis is paragraph 6 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 7\n\nThis is paragraph 7 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 8\n\nThis is paragraph 8 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 9\n\nThis is paragraph 9 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 10\n\nThis is paragraph 10 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 11\n\nThis is paragraph 11 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 12\n\nThis is paragraph 12 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 13\n\nThis is paragraph 13 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 14\n\nThis is paragraph 14 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 15\n\nThis is paragraph 15 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 16\n\nThis is paragraph 16 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 17\n\nThis is paragraph 17 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 18\n\nThis is paragraph 18 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 19\n\nThis is paragraph 19 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 20\n\nThis is paragraph 20 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 21\n\nThis is paragraph 21 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 22\n\nThis is paragraph 22 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 23\n\nThis is paragraph 23 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 24\n\nThis is paragraph 24 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 25\n\nThis is paragraph 25 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 26\n\nThis is paragraph 26 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 27\n\nThis is paragraph 27 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 28\n\nThis is paragraph 28 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 29\n\nThis is paragraph 29 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 30\n\nThis is paragraph 30 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 31\n\nThis is paragraph 31 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 32\n\nThis is paragraph 32 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 33\n\nThis is paragraph 33 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 34\n\nThis is paragraph 34 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 35\n\nThis is paragraph 35 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 36\n\nThis is paragraph 36 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 37\n\nThis is paragraph 37 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 38\n\nThis is paragraph 38 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 39\n\nThis is paragraph 39 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 40\n\nThis is paragraph 40 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 41\n\nThis is paragraph 41 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 42\n\nThis is paragraph 42 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 43\n\nThis is paragraph 43 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 44\n\nThis is paragraph 44 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 45\n\nThis is paragraph 45 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 46\n\nThis is paragraph 46 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 47\n\nThis is paragraph 47 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 48\n\nThis is paragraph 48 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 49\n\nThis is paragraph 49 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 50\n\nThis is paragraph 50 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 51\n\nThis is paragraph 51 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 52\n\nThis is paragraph 52 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 53\n\nThis is paragraph 53 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 54\n\nThis is paragraph 54 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 55\n\nThis is paragraph 55 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 56\n\nThis is paragraph 56 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 57\n\nThis is paragraph 57 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 58\n\nThis is paragraph 58 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 59\n\nThis is paragraph 59 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 60\n\nThis is paragraph 60 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 61\n\nThis is paragraph 61 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 62\n\nThis is paragraph 62 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 63\n\nThis is paragraph 63 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 64\n\nThis is paragraph 64 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 65\n\nThis is paragraph 65 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 66\n\nThis is paragraph 66 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 67\n\nThis is paragraph 67 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 68\n\nThis is paragraph 68 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 69\n\nThis is paragraph 69 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 70\n\nThis is paragraph 70 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 71\n\nThis is paragraph 71 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 72\n\nThis is paragraph 72 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 73\n\nThis is paragraph 73 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 74\n\nThis is paragraph 74 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 75\n\nThis is paragraph 75 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 76\n\nThis is paragraph 76 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 77\n\nThis is paragraph 77 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 78\n\nThis is paragraph 78 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 79\n\nThis is paragraph 79 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 80\n\nThis is paragraph 80 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 81\n\nThis is paragraph 81 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 82\n\nThis is paragraph 82 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 83\n\nThis is paragraph 83 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 84\n\nThis is paragraph 84 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 85\n\nThis is paragraph 85 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 86\n\nThis is paragraph 86 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 87\n\nThis is paragraph 87 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 88\n\nThis is paragraph 88 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 89\n\nThis is paragraph 89 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 90\n\nThis is paragraph 90 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 91\n\nThis is paragraph 91 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 92\n\nThis is paragraph 92 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 93\n\nThis is paragraph 93 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 94\n\nThis is paragraph 94 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 95\n\nThis is paragraph 95 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 96\n\nThis is paragraph 96 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 97\n\nThis is paragraph 97 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 98\n\nThis is paragraph 98 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 99\n\nThis is paragraph 99 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n\n## Section 100\n\nThis is paragraph 100 with **bold** and *italic* text.\n\n- Item 1\n- Item 2\n- Item 3\n"
         }
@@ -630,19 +608,17 @@ describe("MdastRenderer", () => {
   });
   it("allows custom paragraph renderer", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"Test paragraph"} />
+      <Markdown markdown={"Test paragraph"} />
     ));
     expect(asFragment()).toRenderEqual("<p>Test paragraph</p>");
   });
   it("falls back to default renderer when custom not provided", () => {
-    const { asFragment } = render(() => (
-      <MdastRenderer markdown={"# Header"} />
-    ));
+    const { asFragment } = render(() => <Markdown markdown={"# Header"} />);
     expect(asFragment()).toRenderEqual("<h1 >Header</h1>");
   });
   it("allows custom emphasis renderer", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"This is *custom italic* text"} />
+      <Markdown markdown={"This is *custom italic* text"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p>This is <em>custom italic</em> text</p>",
@@ -650,7 +626,7 @@ describe("MdastRenderer", () => {
   });
   it("allows custom link renderer with additional attributes", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"[Original Link](https://example.com)"} />
+      <Markdown markdown={"[Original Link](https://example.com)"} />
     ));
     expect(asFragment()).toRenderEqual(
       '<p><a href="https://example.com" target="_blank" rel="noopener noreferrer">Original Link</a></p>',
@@ -658,7 +634,7 @@ describe("MdastRenderer", () => {
   });
   it("allows chaining of custom renderers", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer markdown={"**Bold** and *italic* text"} />
+      <Markdown markdown={"**Bold** and *italic* text"} />
     ));
     expect(asFragment()).toRenderEqual(
       "<p><strong>Bold</strong> and <em>italic</em> text</p>",
@@ -666,7 +642,7 @@ describe("MdastRenderer", () => {
   });
   it("renders tables with emphasis and links", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Name | Description | Link |\n|------|-------------|------|\n| **Bold Name** | *Italic description* | [Visit](https://example.com) |\n| ~~Deprecated~~ | `code example` | [GitHub](https://github.com) |"
         }
@@ -680,7 +656,7 @@ describe("MdastRenderer", () => {
   });
   it("renders tables with images", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Icon | Name | Description |\n|------|------|-------------|\n| ![Icon](icon.png) | Project | Main project |\n| ![Logo](logo.svg) | Brand | Company brand |"
         }
@@ -694,7 +670,7 @@ describe("MdastRenderer", () => {
   });
   it("handles empty table cells", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Col1 | Col2 | Col3 |\n|------|------|------|\n| Data || More |\n||Data ||"
         }
@@ -708,7 +684,7 @@ describe("MdastRenderer", () => {
   });
   it("renders simple table", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |"
         }
@@ -722,7 +698,7 @@ describe("MdastRenderer", () => {
   });
   it("renders table with alignment", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Left | Center | Right |\n|:-----|:------:|------:|\n| L1   |   C1   |    R1 |"
         }
@@ -736,7 +712,7 @@ describe("MdastRenderer", () => {
   });
   it("renders standalone table correctly", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "| Name | Age |\n|------|-----|\n| John | 30  |\n| Jane | 25  |"
         }
@@ -750,7 +726,7 @@ describe("MdastRenderer", () => {
   });
   it("renders strikethrough text", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"~~strikethrough~~"}
         extensions={[extensions["gfm"]()]}
         mdastExtensions={[mdastExtensions["gfmFromMarkdown"]()]}
@@ -760,7 +736,7 @@ describe("MdastRenderer", () => {
   });
   it("renders strikethrough within paragraph", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"This is ~~deleted~~ text."}
         extensions={[extensions["gfm"]()]}
         mdastExtensions={[mdastExtensions["gfmFromMarkdown"]()]}
@@ -772,7 +748,7 @@ describe("MdastRenderer", () => {
   });
   it("renders strikethrough with nested emphasis", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={"~~This is deleted with **bold** and *italic* text~~"}
         extensions={[extensions["gfm"]()]}
         mdastExtensions={[mdastExtensions["gfmFromMarkdown"]()]}
@@ -784,7 +760,7 @@ describe("MdastRenderer", () => {
   });
   it("renders complex nested emphasis combinations", () => {
     const { asFragment } = render(() => (
-      <MdastRenderer
+      <Markdown
         markdown={
           "***This is bold and italic*** with ~~strikethrough **and bold**~~"
         }

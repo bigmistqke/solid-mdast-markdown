@@ -5,12 +5,12 @@ import { dirname, join } from 'path'
 import * as prettier from 'prettier'
 import { NoHydration, renderToString } from 'solid-js/web'
 import { fileURLToPath } from 'url'
-import { MdastRenderer } from '../../dist/index.js'
+import { Markdown } from '../../dist/index.js'
 import { createDebug } from '../../src/utils.ts'
 import { extensions, mdastExtensions } from "../extensions.ts"
 import snapshots from '../index.ts'
 
-const debug = createDebug('MdastRenderer/generate-html', true)
+const debug = createDebug('Markdown/generate-html', true)
 
 const snapshotPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'index.ts')
 
@@ -23,7 +23,7 @@ const serializedSpec = Object.fromEntries(
     }
 
     const output = renderToString(() =>
-      NoHydration({ get children() { return MdastRenderer({ markdown: testCase.input, extensions: testCase.extensions?.map(key => extensions[key]()), mdastExtensions: testCase.mdastExtensions?.map(key => mdastExtensions[key]()) }) } }),
+      NoHydration({ get children() { return Markdown({ markdown: testCase.input, extensions: testCase.extensions?.map(key => extensions[key]()), mdastExtensions: testCase.mdastExtensions?.map(key => mdastExtensions[key]()) }) } }),
     ).replaceAll('<!--!$-->', '')
 
     return [

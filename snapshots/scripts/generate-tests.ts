@@ -20,15 +20,15 @@ const generateTestFile = (): string => {
 import { describe, it, expect } from 'vitest'
 import { render } from '@solidjs/testing-library'
 import { setup } from "./setup.ts"
-import { MdastRenderer } from '../src/index.ts'
+import { Markdown } from '../src/index.ts'
 import { extensions, mdastExtensions } from "../snapshots/extensions.ts"
 
 setup()
 
-describe('MdastRenderer', () => {`,
+describe('Markdown', () => {`,
     ...Object.entries(snapshots).map(
       ([title, { input: markdown, output: html, extensions, mdastExtensions }]) => `      it('${title}', () => {
-    const { asFragment } = render(() => <MdastRenderer 
+    const { asFragment } = render(() => <Markdown 
       markdown={${JSON.stringify(markdown)} }
       ${extensions ? `extensions={[${extensions.map(key => `extensions["${key}"]()`).join(', ')}]}` : ''}
       ${mdastExtensions ? `mdastExtensions={[${mdastExtensions.map(key => `mdastExtensions["${key}"]()`).join(', ')}]}` : ''}

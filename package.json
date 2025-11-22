@@ -44,7 +44,7 @@
     "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 src/**/*.{ts,tsx}",
     "lint:types": "tsc --noEmit",
     "update-deps": "pnpm up -Li",
-    "bump": "bumpp"
+    "release": "bumpp && pnpm publish"
   },
   "dependencies": {
     "@types/mdast": "^4.0.4",

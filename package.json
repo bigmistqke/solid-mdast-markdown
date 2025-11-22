@@ -55,7 +55,8 @@
     "micromark-util-types": "^2.0.2"
   },
   "peerDependencies": {
-    "solid-js": "^1.6.0"
+    "solid-js": "^1.6.0",
+    "mdast-util-from-markdown": "^2.0.2"
   },
   "devDependencies": {
     "@solidjs/router": "^0.15.4",
